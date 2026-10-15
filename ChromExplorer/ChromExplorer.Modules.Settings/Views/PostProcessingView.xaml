@@ -1,0 +1,85 @@
+<UserControl x:Class="ChromExplorer.Modules.Settings.Views.PostProcessingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="OperationItemStyle">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsActive}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" PreviewMouseLeftButtonDown="CheckBox_PreviewMouseLeftButtonDown"></CheckBox>
+                    <TextBlock Margin="5" Text="{Binding Title}"></TextBlock>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                    <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">MS Operations</TextBlock>
+                </Border>
+
+                <ListBox Grid.Row="1" ItemsSource="{Binding MsOperations}" 
+                         SelectedItem="{Binding SelectedMsOperation}"
+                         ItemTemplate="{StaticResource OperationItemStyle}">
+                </ListBox>
+
+                <Border Grid.Row="2" Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                    <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">EIC Operations</TextBlock>
+                </Border>
+
+                <ListBox Grid.Row="3" ItemsSource="{Binding EicOperations}" 
+                         SelectedItem="{Binding SelectedEicOperation}"
+                         ItemTemplate="{StaticResource OperationItemStyle}">
+                </ListBox>
+
+                <Border Grid.Column="2"  Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                    <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">MS Operation Settings</TextBlock>
+                </Border>
+
+                <StackPanel Grid.Column="2" Grid.Row="1">
+                    <ContentControl Content="{Binding SelectedMsOperation.ConfigView}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                    </ContentControl>
+                    <Button HorizontalAlignment="Right" Margin="5" Command="{Binding ApplyMsCommand}">Apply to MS</Button>
+                </StackPanel>
+
+                <Border Grid.Column="2" Grid.Row="2" Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                    <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">EIC Operation Settings</TextBlock>
+                </Border>
+
+                <StackPanel Grid.Column="2" Grid.Row="3">
+                    <ContentControl Content="{Binding SelectedEicOperation.ConfigView}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                    </ContentControl>
+                    <Button HorizontalAlignment="Right" Margin="5" Command="{Binding ApplyEicCommand}">Apply to EIC/TIC</Button>
+                </StackPanel>
+
+               
+
+            </Grid>
+
+
+        </ScrollViewer>
+    </Grid>
+</UserControl>

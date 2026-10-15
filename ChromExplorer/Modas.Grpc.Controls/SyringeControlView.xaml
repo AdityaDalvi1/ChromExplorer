@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Modas.Grpc.Controls.SyringeControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Modas.Grpc.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"  d:DataContext="{d:DesignInstance local:SyringeControlViewViewModel }">
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock>Diameter (mm)</TextBlock>
+        <TextBox x:Name="syringeDiameter" Grid.Row="0" Grid.Column="1" Margin="2,5,5,3" Text="{Binding SyringeConfig.Diameter}"></TextBox>
+        <TextBlock Grid.Row="1" Grid.Column="0">Rate (uL/min)</TextBlock>
+        <TextBox x:Name="syringeRate" Grid.Row="1" Grid.Column="1" Margin="2,5,5,3" Text="{Binding SyringeConfig.Rate}"></TextBox>
+        <TextBlock Grid.Row="2" Grid.Column="0">Volume (uL)</TextBlock>
+        <TextBox x:Name="syringeVolume" Grid.Row="2" Grid.Column="1" Margin="2,5,5,3" Text="{Binding SyringeConfig.Volume}"></TextBox>
+        <CheckBox x:Name="syringeEnabled" Grid.Row="3" Grid.Column="0" IsChecked="{Binding SyringeConfig.AutoEnable}">Auto Start</CheckBox>
+        <Button Grid.Row="2" Grid.Column="2"  Margin="3" Width="40" Command="{Binding StartCommand}" >Start</Button>
+        <Button Grid.Row="3" Grid.Column="2"  Margin="3" Width="40" Command="{Binding StopCommand}"  >Stop</Button>
+    </Grid>
+
+</UserControl>

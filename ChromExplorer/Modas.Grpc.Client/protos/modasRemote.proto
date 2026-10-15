@@ -1,0 +1,357 @@
+﻿syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+package Modas.Remote.Grpc;
+
+service MTRemoteService {
+  rpc RequestControl (RequestControlRequest) returns (RequestControlReply);
+  rpc Ping (PingRequest) returns (PingReply);
+
+  rpc SetToStandbyMode (ClientInfo) returns (MTMessage);
+  rpc SetToOperationalMode (ClientInfo) returns (MTMessage);
+  rpc SetToPowerOffMode (ClientInfo) returns (MTMessage);
+  rpc StopMeasurements (ClientInfo) returns (MTMessage);
+  rpc ResetErrorState (ClientInfo) returns (MTMessage);
+
+  rpc SetDeviceDataReadbackEnabled (DeviceDataReadbackSettings) returns (stream StatusReport);
+  rpc GetInstrumentState(ClientInfo) returns (InstrumentState);
+  rpc GetIonSourceInfo(ClientInfo) returns (MTIonSourceInfo);
+
+  rpc StartMeasurementStream (StartMeasurementsRequest) returns (stream MTMeasurementDataSet);
+
+  rpc SyringeControl (SyringeConfig) returns (MTMessage);
+  rpc SetupIonSource (IonSourceConfig) returns (MTMessage);
+  rpc LoadMethod (MethodConfig) returns (MTMessage);
+  rpc ApplyMethodOverrides (MethodOverrides) returns (MTMessage);
+  rpc GetMethodOverrides (ClientInfo) returns (MethodOverrides);
+  rpc UpdateSampleInfo (SampleInfo) returns (MTMessage);
+
+}
+
+enum MTErrorCodes
+{
+	ERROR_NONE = 0;
+	ERROR_INSTRUMENT_STATE = 1;
+	ERROR_OPERATION_IN_PROGRESS = 2;
+	ERROR_FILE_NOT_FOUND = 3;
+	ERROR_WEB = 4;
+	ERROR_METHOD_FILE = 5;
+	ERROR_OPERATION = 6;
+}
+
+enum MTMessageSeverity
+{
+	SEVERITY_INFO = 0;
+	SEVERITY_WARN = 1;
+	SEVERITY_ERROR = 2;
+}
+
+enum MTMassSpecState
+{
+	STATE_ERROR = 0;
+	STATE_OFF = 1;
+	STATE_STANDBY = 2;
+	STATE_READY = 3;
+	STATE_ACQUIRING = 4;
+	STATE_UNKNOWN = 5;
+	STATE_PUMPING = 6;
+}
+
+enum MTMeasurementType
+{
+	MEAS_MS = 0;
+	MEAS_MSMS = 1;
+	MEAS_MS3 = 2;
+}
+
+enum MTMeasurementDataSetType
+{
+    DSTYPE_MSSCAN = 0;
+    DSTYPE_MS2SCAN = 1;
+    DSTYPE_DDSCAN = 2;
+}
+
+enum MTMassRange 
+{
+	MRANGE_LOW = 0;
+	MRANGE_HIGH = 1;
+}
+
+enum MTSpectrumType
+{
+	ST_NONE = 0;
+	ST_PROFILE = 1;
+	ST_CENTROID = 2;
+}
+
+enum MTSyringeAction
+{
+	SA_STOP = 0;
+	SA_START = 1;
+}
+
+enum MTIonPolarity
+{
+	IP_POSITIVE = 0;
+	IP_NEGATIVE = 1;
+}
+
+enum IonSourceChannelType
+{
+	ICT_TEMPERATURE = 0;
+	ICT_VOLTAGE = 1;
+}
+
+enum IonSourceChannelScope
+{
+     ICS_NONE = 0;
+     ICS_DIALOG = 1;
+     ICS_MONITORING = 2;
+     ICS_All = 3;
+}
+
+enum VoltageChannelId
+{
+    VC_DAC0 = 0;      
+    VC_DAC1 = 1;      
+    VC_DAC2 = 2;     
+    VC_DAC3 = 3;      
+    VC_DAC4 = 4;     
+    VC_DAC5 = 5;      
+    VC_DAC6 = 6;      
+    VC_DAC7 = 7;      
+    VC_MSP0 = 8;      
+    VC_MSP1 = 9;
+    VC_DAC0_H = 10;
+    VC_DAC1_H = 11;
+    VC_DAC5_H = 12;
+    MSP0_H = 13;
+}
+
+message MTMessage
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+	MTMessageSeverity severity = 2;
+	MTErrorCodes error_code = 3;
+	string message = 4;
+	string exception = 5;
+}
+
+message MTMessageList
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+	repeated MTMessage messages = 2;
+}
+
+message GenericReply 
+{ 	
+	google.protobuf.Timestamp occurred_at = 1; 
+	string message = 2;
+}; 
+
+message RequestControlRequest 
+{ 
+	google.protobuf.Timestamp occurred_at = 1; 
+}
+
+message RequestControlReply 
+{ 	
+	google.protobuf.Timestamp occurred_at = 1; 
+	bool is_access_granted = 2;
+	string client_id = 3;
+	string ms_serial_number = 4;
+	string software_version = 5;
+}; 
+
+message PingRequest
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+}
+
+message PingReply
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+}
+
+message ClientInfo
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+	string client_id = 2;
+}
+
+message StartMeasurementsRequest
+{
+    ClientInfo client_info = 1;
+	int32 scan_count = 2;
+	int32 scan_duration_sec = 3;
+	MTSpectrumType type = 4;
+	string filename = 5;
+	string sampleReference = 6;
+	string sampleDescription = 7;
+	string category = 8;
+}
+
+message StatusItem
+{
+	string name = 1;
+	string cat = 2;
+	string value = 3;
+}
+
+message StatusReport
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+	repeated StatusItem status_items = 2;
+	MTMassSpecState state = 3;
+	string ion_source_id = 4;
+}
+
+message InstrumentState
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+	MTMassSpecState state = 2;
+}
+
+
+message DeviceDataReadbackSettings
+{
+    ClientInfo client_info = 1;	
+	int32 interval_msec = 2;
+}
+
+message MTIonSourceInfo
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+	string ion_source_id = 2;
+}
+
+message MTMeasurementDataSetHeader
+{
+	
+	int32 scan_number = 1;
+	int32 retention_time_ms = 2;
+	double low_mass = 3;
+	double high_mass = 4;
+	MTMeasurementType measurement_type = 5;
+	MTMassRange mass_range = 6;
+	int32 injection_time_ms = 7;
+	int32 microscan_count = 8;
+	double parent_ion = 9;
+	double isolation_width = 10;
+    double fragmentation_width = 11;
+    double fragmentation_energy = 12;
+	MTSpectrumType spectrum_type = 13;
+}
+
+message MTMeasurement
+{
+    float mass_charge_ratio = 1;
+    float abundance = 2;
+}
+        
+
+message MTMeasurementDataSet
+{
+	google.protobuf.Timestamp occurred_at = 1; 
+	MTMeasurementDataSetType dataset_type = 2;
+	MTMeasurementDataSetHeader header = 3;
+	repeated MTMeasurement measurements = 4;
+}
+
+message SyringeConfig
+{
+	ClientInfo client_info = 1;
+	double diameter = 2;
+	double rate = 3;
+	double volume = 4; 
+	MTSyringeAction action = 5;
+}
+
+message IonSourceConfig
+{
+	ClientInfo client_info = 1;	
+	double spray_voltage = 2;
+	DsapHeaterConfig dsap_config = 3;
+}
+
+message DsapHeaterConfig
+{
+	double dsap_power = 2;
+	bool dsap_enabled = 3;
+}
+
+message ParentIonInfo
+{
+	double parent_ion = 1;
+	double fragmentation_amplitude = 2;
+	double fragmentation_width = 3;
+	double fragmentation_q = 4;
+}
+
+message AgcInfo
+{
+	double agc_target = 1;
+	bool agc_enabled = 2;
+	double min_injection_time = 3;
+	double max_injection_time = 4;
+	double history_weight = 5;
+	
+}
+
+message MethodConfig
+{
+	ClientInfo client_info = 1;
+	string method_file = 2;
+}
+
+
+
+message MethodOverrides
+{
+	ClientInfo client_info = 1;
+	MTMeasurementType meas_type = 2;
+	ParentIonInfo parent_ion = 3;
+	ParentIonInfo secondary_parent_ion = 4;
+	MTIonPolarity ion_polarity = 5;
+	double injection_time = 6;
+	double m_from = 7;
+	double m_to = 8;
+	int32 microscan_count = 9;
+	AgcInfo agc_settings = 10;
+	IonSourceDescriptor ion_source_settings = 11;
+	IonOpticsDescriptor ion_optics_settings = 12;
+}	
+
+message IonSourceChannel
+{
+	IonSourceChannelType type = 1;
+	int32 index = 2;
+	string  name = 3;
+	double current_value = 4;
+}
+
+message IonSourceDescriptor
+{
+	repeated IonSourceChannel channels = 1;
+}
+  
+message VoltageChannel
+{
+	VoltageChannelId id = 1;
+	string name = 2;
+	double current_value = 3;
+}
+
+message IonOpticsDescriptor
+{
+	repeated VoltageChannel channels = 1;
+}
+
+message SampleInfo
+{
+	ClientInfo client_info = 1;
+	string sample_id = 2;
+	string sample_name = 3;
+	string sample_comment = 4;
+}

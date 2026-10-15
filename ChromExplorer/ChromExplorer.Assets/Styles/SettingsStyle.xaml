@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="OutlookBar" TargetType="{x:Type TabControl}">
+        <ControlTemplate.Resources>
+            
+        </ControlTemplate.Resources>
+        <Border BorderBrush="LightBlue" BorderThickness="1" SnapsToDevicePixels="True" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <!-- This is the host panel that contains the tab items -->
+                <StackPanel Grid.Row="1" IsItemsHost="True" />
+                <!-- This is the label that appears at the top of the TabControl -->
+                <Grid Grid.ColumnSpan="2" MinHeight="28" SnapsToDevicePixels="True">
+                    <TextBlock FontFamily="Tahoma" VerticalAlignment="Center" HorizontalAlignment="Right"  Margin="5,0" FontSize="18" FontWeight="Bold" Text="{Binding HeaderInfo}" ></TextBlock>
+                    <Line Stroke="LightBlue" VerticalAlignment="Bottom" X2="1" Stretch="Fill"/>
+                </Grid>
+                <!-- This is the selected content pane that appears in the Outlook Bar -->
+                <ContentPresenter Grid.Row="1" Grid.Column="1" Content="{TemplateBinding SelectedContent}" />
+            </Grid>
+        </Border>
+
+        <!--Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" 
+            SnapsToDevicePixels="True" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel IsItemsHost="True" Grid.Column="0" />
+                <ContentPresenter Content="{TemplateBinding SelectedContent}" Grid.Column="1"/>
+            </Grid>
+        </Border-->
+    </ControlTemplate>
+
+</ResourceDictionary>

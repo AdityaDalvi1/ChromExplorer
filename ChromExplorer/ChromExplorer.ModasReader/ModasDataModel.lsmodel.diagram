@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<minimalLanguageDiagram dslVersion="1.1.0.0" absoluteBounds="0, 0, 11, 8.5" name="ModasDataModel">
+  <modelMoniker name="/ModasDataModel" />
+  <nestedChildShapes>
+    <entityShape Id="50dda3a8-14f5-4bff-b73b-1c48e7025fd9" absoluteBounds="8.25, 1.625, 1.5, 1.0869042968750002">
+      <entityMoniker name="/ModasDataModel/Method" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b1ab0a46-fa84-4e40-8924-4450d95ac2d3" absoluteBounds="8.265, 2.035, 1.4700000000000002, 0.576904296875" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <entityShape Id="5762ea40-f2ca-4c4c-a330-3a888a49e0e8" absoluteBounds="8.25, 3.5, 1.5, 3.0099186197916659">
+      <entityMoniker name="/ModasDataModel/Calibrations" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d1e1eb73-f8c0-48c7-95c1-9e62d1c3a2aa" absoluteBounds="8.265, 3.91, 1.4700000000000002, 2.4999186197916665" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <entityShape Id="20b7ac16-db26-4ffe-a9ad-d26ec3035725" absoluteBounds="4.625, 1.875, 1.5, 2.6253157552083328">
+      <entityMoniker name="/ModasDataModel/Spectrum" />
+      <nestedChildShapes>
+        <elementListCompartment Id="133a87d0-3173-406a-9e06-f67d22917804" absoluteBounds="4.64, 2.285, 1.4700000000000002, 2.115315755208333" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <entityShape Id="a16b9df6-0ad7-4c2b-a452-4e1c5cd69dd4" absoluteBounds="0.75, 1.875, 1.5, 0.70230143229166675">
+      <entityMoniker name="/ModasDataModel/SpectrumData" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d60b26c8-c6f2-482e-b307-8ac211197dad" absoluteBounds="0.76499999999999968, 2.285, 1.4700000000000002, 0.19230143229166666" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <oneToManyAssociationConnector edgePoints="[(8.25 : 2.2934521484375); (6.125 : 2.2934521484375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <oneToManyAssociationMoniker Id="c3ac5580-cf9a-4bc6-bf0f-5e5bf1519b7c" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="50dda3a8-14f5-4bff-b73b-1c48e7025fd9" />
+        <entityShapeMoniker Id="20b7ac16-db26-4ffe-a9ad-d26ec3035725" />
+      </nodes>
+    </oneToManyAssociationConnector>
+    <oneToManyAssociationConnector edgePoints="[(4.625 : 2.22615071614583); (2.25 : 2.22615071614583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <oneToManyAssociationMoniker Id="9e9c673d-e58a-4f47-94c1-acd0c2c35542" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="20b7ac16-db26-4ffe-a9ad-d26ec3035725" />
+        <entityShapeMoniker Id="a16b9df6-0ad7-4c2b-a452-4e1c5cd69dd4" />
+      </nodes>
+    </oneToManyAssociationConnector>
+    <entityShape Id="08137339-c75d-4c1c-be38-71ef3c4f3edb" absoluteBounds="4.625, 5.875, 1.5, 0.50999999999999979">
+      <entityMoniker name="/ModasDataModel/SpetrumCalibrations" />
+      <nestedChildShapes>
+        <elementListCompartment Id="04347b14-7aed-4ebe-9861-fc05cf16ffc9" absoluteBounds="4.64, 6.285, 1.4700000000000002, 0" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+    <oneToManyAssociationConnector edgePoints="[(8.25 : 6.13); (6.125 : 6.13)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <oneToManyAssociationMoniker Id="f43caa41-9aaf-4ce0-817e-750d9ceada75" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="5762ea40-f2ca-4c4c-a330-3a888a49e0e8" />
+        <entityShapeMoniker Id="08137339-c75d-4c1c-be38-71ef3c4f3edb" />
+      </nodes>
+    </oneToManyAssociationConnector>
+    <oneToManyAssociationConnector edgePoints="[(5.71875 : 4.50031575520833); (5.71875 : 5.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <oneToManyAssociationMoniker Id="a528f17e-8758-4d3f-a9b6-b815983172e8" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="20b7ac16-db26-4ffe-a9ad-d26ec3035725" />
+        <entityShapeMoniker Id="08137339-c75d-4c1c-be38-71ef3c4f3edb" />
+      </nodes>
+    </oneToManyAssociationConnector>
+    <oneToManyAssociationConnector edgePoints="[(8.25 : 4.00015787760417); (6.125 : 4.00015787760417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <oneToManyAssociationMoniker Id="dcdf1595-ebd5-4711-975b-a1a8ee45c2fe" />
+      <relativeChildShapes />
+      <nodes>
+        <entityShapeMoniker Id="5762ea40-f2ca-4c4c-a330-3a888a49e0e8" />
+        <entityShapeMoniker Id="20b7ac16-db26-4ffe-a9ad-d26ec3035725" />
+      </nodes>
+    </oneToManyAssociationConnector>
+    <entityShape Id="d6a63561-6f60-4342-ac19-4a65bdf2a93a" absoluteBounds="0.75, 4.75, 1.5, 1.2792057291666668">
+      <entityMoniker name="/ModasDataModel/ModasVersion" />
+      <nestedChildShapes>
+        <elementListCompartment Id="570c3439-61e1-4a74-9c4d-3ab2aa9ab582" absoluteBounds="0.76500000000000012, 5.16, 1.4700000000000002, 0.76920572916666663" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+  </nestedChildShapes>
+</minimalLanguageDiagram>

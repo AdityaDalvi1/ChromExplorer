@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChromExplorer — Analysis Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 11px;
+            color: #222;
+            /* Added a gray background for screen view so pages look separate */
+            background: #e5e7eb;
+        }
+
+        /* ── PAGE WRAPPER ── */
+        .page {
+            width: 210mm;
+            min-height: 297mm; /* Standard A4 height */
+            margin: 20px auto; /* Creates spacing between pages on screen */
+            padding: 12mm 15mm;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* Visual separation on screen */
+            display: flex;
+            flex-direction: column; /* Allows pushing the footer to the bottom */
+            position: relative;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #333;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-box {
+            background: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .logo-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a4a8a;
+            letter-spacing: 0.3px;
+        }
+
+        .header-timestamp {
+            font-size: 10px;
+            color: #555;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* ── REPORT TITLE BANNER ── */
+        .report-title-banner {
+            background: linear-gradient(135deg, #1a4a8a 0%, #2563b0 100%);
+            color: #fff;
+            text-align: center;
+            padding: 10px 0 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+        }
+
+            .report-title-banner h1 {
+                font-size: 17px;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+
+        .report-meta {
+            margin-top: 4px;
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+            .report-meta span {
+                margin: 0 6px;
+            }
+
+        .report-desc {
+            font-size: 9.5px;
+            color: #555;
+            margin: 4px 0 8px 2px;
+        }
+
+        /* ── SECTION HEADER ── */
+        .section-header {
+            background: linear-gradient(90deg, #1a4a8a, #2563b0);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 3px 3px 0 0;
+            margin-bottom: 0;
+            letter-spacing: 0.4px;
+        }
+
+        /* ── GRAPH CONTAINER ── */
+        .graph-container {
+            border: 1px solid #bbb;
+            border-top: none;
+            border-radius: 0 0 3px 3px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            background: #f8faff;
+        }
+
+        .graph-toolbar {
+            background: #dde8f5;
+            border-bottom: 1px solid #bbb;
+            padding: 3px 8px;
+            font-size: 9px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .graph-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .graph-toolbar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .graph-toolbar-label {
+            font-size: 8px;
+            color: #666;
+        }
+
+        .graph-toolbar-value {
+            font-size: 9px;
+            font-weight: 500;
+            color: #111;
+        }
+
+        .graph-img-area {
+            width: 100%;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            position: relative;
+            overflow: visible;
+        }
+
+            .graph-img-area img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            }
+
+        .graph-placeholder {
+            width: 100%;
+            height: 220px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 10px;
+            font-style: italic;
+        }
+
+        .graph-caption {
+            text-align: center;
+            font-size: 9px;
+            color: #666;
+            padding: 3px 0;
+            background: #f0f4fb;
+            border-top: 1px solid #dde;
+        }
+
+        /* Mass Spectrum toolbar */
+        .ms-toolbar {
+            background: #dde8f5;
+            border-bottom: 1px solid #bbb;
+            padding: 3px 8px;
+            font-size: 9px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'Roboto Mono', monospace;
+            flex-wrap: wrap;
+        }
+
+            .ms-toolbar span {
+                white-space: nowrap;
+            }
+
+            .ms-toolbar .lbl {
+                color: #555;
+                font-size: 8px;
+            }
+
+        /* ── PARAMETERS TABLES ── */
+        .params-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5px;
+        }
+
+            .param-table caption {
+                background: linear-gradient(90deg, #1a4a8a, #2563b0);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                padding: 4px 8px;
+                text-align: left;
+                border-radius: 3px 3px 0 0;
+                caption-side: top;
+                letter-spacing: 0.3px;
+            }
+
+            .param-table tr:nth-child(odd) {
+                background: #f0f5fb;
+            }
+
+            .param-table tr:nth-child(even) {
+                background: #fff;
+            }
+
+            .param-table td {
+                padding: 3.5px 8px;
+                border: 1px solid #d0d8e8;
+                vertical-align: middle;
+            }
+
+                .param-table td:first-child {
+                    font-weight: 600;
+                    color: #1a3a6a;
+                    width: 55%;
+                }
+
+                .param-table td:last-child {
+                    font-family: 'Roboto Mono', monospace;
+                    color: #333;
+                }
+
+        /* ── DETECTED PEAKS TABLE ── */
+        .peaks-section {
+            margin-bottom: 10px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5px;
+            table-layout: fixed; /* Added for better layout control */
+        }
+
+            .data-table thead {
+                display: table-header-group; /* Ensure header repeats on new pages */
+            }
+
+                .data-table thead tr {
+                    background: linear-gradient(90deg, #1a4a8a, #2563b0);
+                    color: #fff;
+                }
+
+                .data-table thead th {
+                    padding: 4px 8px;
+                    text-align: left;
+                    font-weight: 600;
+                    letter-spacing: 0.3px;
+                    font-size: 9.5px;
+                }
+
+            .data-table tbody tr {
+                page-break-inside: avoid;
+            }
+
+                .data-table tbody tr:nth-child(odd) {
+                    background: #f0f5fb;
+                }
+
+                .data-table tbody tr:nth-child(even) {
+                    background: #fff;
+                }
+
+            .data-table tbody td {
+                padding: 3.5px 8px;
+                border: 1px solid #d0d8e8;
+                vertical-align: middle;
+                font-family: 'Roboto Mono', monospace;
+                color: #333;
+            }
+
+                .data-table tbody td:first-child {
+                    font-family: 'Roboto', sans-serif;
+                    font-weight: 600;
+                    color: #1a3a6a;
+                }
+
+        .peak-label {
+            display: inline-block;
+            background: #e8f0fb;
+            border: 1px solid #b0c8e8;
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-size: 8.5px;
+            font-family: 'Roboto Mono', monospace;
+            color: #1a3a6a;
+            white-space: nowrap;
+        }
+
+        /* ── SPECTRUM PEAKS — single-col layout ── */
+        .spectrum-section {
+            margin-bottom: 10px;
+        }
+
+        /* ── POST-PROCESSING TABLE (UPDATED TO EXACTLY MATCH IMAGE) ── */
+        .pp-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between the two tables */
+            margin-top: 6px;
+            margin-bottom: 20px;
+        }
+
+        .pp-table-wrapper {
+            width: 100%;
+        }
+
+        .pp-sub-header {
+            background: #d9e2f3; /* Excel style light blue header */
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 6px 8px;
+            border: 1px solid #8c8c8c;
+            border-bottom: none;
+        }
+
+        .pp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+
+            .pp-table td {
+                border: 1px solid #8c8c8c; /* Darker grey border from image */
+                padding: 4px 8px;
+                vertical-align: middle;
+                height: 23px; /* Uniform row height */
+            }
+
+                .pp-table td:first-child {
+                    width: 65%;
+                    background: #e9eef7 !important; /* Very light blue for the label column */
+                    color: #000;
+                    font-weight: 700;
+                }
+
+                .pp-table td:last-child {
+                    background: #fff;
+                    color: #000;
+                }
+
+                /* Status Toggle Classes (Active / Inactive states) */
+                .pp-table td.status-inactive {
+                    background: #f2f2f2 !important; /* Grey background */
+                    color: #a6a6a6 !important; /* Grey text */
+                    text-align: center !important;
+                    font-weight: 400 !important;
+                }
+
+                .pp-table td.status-active {
+                    background: #e2efda !important; /* Light green background */
+                    color: #385723 !important; /* Dark green text */
+                    font-weight: 700 !important;
+                    text-align: center !important;
+                }
+
+        /* ── FOOTER ── */
+        .footer {
+            border-top: 1.5px solid #333;
+            padding-top: 5px;
+            margin-top: auto; /* IMPORTANT: This pushes the footer to the absolute bottom of the A4 page */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 9px;
+            color: #555;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .footer-center {
+            text-align: center;
+            flex: 1;
+        }
+
+        /* ── PRINT MEDIA QUERIES ── */
+        @media print {
+            /* Define exact A4 sizing and remove browser margins */
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            body {
+                background: #fff;
+                margin: 0;
+                padding: 0;
+            }
+
+            .page {
+                margin: 0;
+                padding: 12mm 15mm;
+                width: 210mm;
+                min-height: 297mm; /* Changed from height to min-height to allow growth */
+                box-shadow: none;
+                border: none;
+                /* Force a page break after each wrapper so they don't bleed together */
+                page-break-after: always;
+                break-after: page;
+            }
+
+                /* Prevent a blank page at the very end of the document */
+                .page:last-child {
+                    page-break-after: auto;
+                    break-after: auto;
+                }
+
+            /* Reset the helper class since .page handles breaks now */
+            .page-break {
+                page-break-before: auto;
+                break-before: auto;
+                padding-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+        <div class="header">
+            <div class="header-logo">
+                <div class="logo-box">
+                    <img src="{{LogoImage}}" alt="MassTech Logo" style="height: 40px;" />
+                </div>
+            </div>
+            <div class="header-title">MassTech</div>
+            <div class="header-timestamp">{{GeneratedDate}}</div>
+        </div>
+
+        <div class="report-title-banner">
+            <h1>ChromExplorer — Analysis Report</h1>
+            <div class="report-meta">
+                <span>File: {{FileName}}</span>
+                <span>|</span>
+                <span>Generated: {{GeneratedDate}}</span>
+            </div>
+            <div class="report-meta">
+                <span>Instrument: {{InstrumentName}}</span>
+                <span>|</span>
+                <span>User: {{UserName}}</span>
+            </div>
+        </div>
+        <div class="report-desc">Description: {{Description}}</div>
+
+        <div class="section-header">Chromatogram</div>
+        <div class="graph-container">
+            <div class="graph-img-area">
+                {{ChromatogramImage}}
+            </div>
+            <!--<div class="graph-caption">Chromatogram Plot</div>-->
+        </div>
+
+        <div class="section-header">Mass Spectrum</div>
+        <div class="graph-container">
+            <div class="graph-img-area">
+                {{SpectrumImage}}
+            </div>
+            <!--<div class="graph-caption">Mass Spectrum Plot</div>-->
+        </div>
+
+        <div class="params-grid">
+            <div class="param-table-wrap">
+                <table class="param-table">
+                    <caption>Chromatogram Output</caption>
+                    <tbody>
+                        <tr><td>File / Title</td><td>{{FileName}}</td></tr>
+                        <tr><td>Total Scans</td><td>{{TotalScans}}</td></tr>
+                        <tr><td>Data Points</td><td>{{DataPoints}}</td></tr>
+                        <tr><td>Selected Index</td><td>{{SelectedIndex}}</td></tr>
+                        <tr><td>Selected SIC</td><td>{{SelectedSIC}}</td></tr>
+                        <tr><td>Visible Area</td><td>{{VisibleArea}}</td></tr>
+                        <tr><td>X-Axis Units</td><td>{{XAxisUnits}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="param-table-wrap">
+                <table class="param-table">
+                    <caption>Spectrum Output</caption>
+                    <tbody>
+                        <tr><td>Retention Time</td><td>{{RetentionTime}} Min</td></tr>
+                        <tr><td>Scan Index</td><td>{{ScanIndex}}</td></tr>
+                        <tr><td>Scan ID</td><td>{{ScanID}}</td></tr>
+                        <tr><td>Injection Time (ms)</td><td>{{InjectionTimeMs}}</td> </tr>
+                        <tr><td>TIC</td><td>{{TIC}}</td></tr>
+                        <tr><td>Parent Ion (m/z)</td><td>{{ParentIon}}</td></tr>
+                        <!--<tr><td>m/z Min</td><td>{{MzMin}}</td></tr>
+                        <tr><td>m/z Max</td><td>{{MzMax}}</td></tr>
+                        <tr><td>Signal-to-Noise</td><td>{{SignalToNoise}}</td></tr>-->
+                        <tr><td>Baseline Removed</td><td>{{BaselineRemoved}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span class="footer-center">Page 1 &nbsp;|&nbsp; ChromExplorer Report &nbsp;|</span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="header">
+            <div class="header-logo">
+                <div class="logo-box">
+                    <img src="{{LogoImage}}" alt="MassTech Logo" style="height: 40px;" />
+                </div>
+            </div>
+            <div class="header-title">MassTech</div>
+            <div class="header-timestamp">{{GeneratedDate}}</div>
+        </div>
+
+        <div class="peaks-section">
+            <div class="section-header">Detected Chromatogram Peaks</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:8%">#</th>
+                        <th style="width:30%">Retention Time</th>
+                        <th>Label</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ChromPeakRows}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="spectrum-section">
+            <div class="section-header">Spectrum Peak List</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:15%">#</th>
+                        <th style="width:42%">m/z</th>
+                        <th>Intensity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{SpectrumPeakRows}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <span class="footer-center">Page 2 &nbsp;|&nbsp; ChromExplorer Report &nbsp;|</span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="header">
+            <div class="header-logo">
+                <div class="logo-box">
+                    <img src="{{LogoImage}}" alt="MassTech Logo" style="height: 40px;" />
+                </div>
+            </div>
+            <div class="header-title">MassTech</div>
+            <div class="header-timestamp">{{GeneratedDate}}</div>
+        </div>
+
+        <div class="section-header">Quantitation (Quan) — Calibration Curve</div>
+        <div class="graph-container">
+            <div class="graph-img-area">
+                {{QuanChartImage}}
+            </div>
+        </div>
+        <div class="report-desc">Calibration Equation: {{QuanEquation}}</div>
+
+        <div class="peaks-section">
+            <div class="section-header">Quan Sample Results</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:6%">#</th>
+                        <th style="width:14%">Sample</th>
+                        <th style="width:12%">Sample Type</th>
+                        <th style="width:10%">Exp Amt</th>
+                        <th style="width:10%">Area</th>
+                        <th style="width:10%">Calc Amt</th>
+                        <th style="width:10%">%Recovery</th>
+                        <th style="width:10%">%Diff</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{QuanRows}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <span class="footer-center">Page 3 &nbsp;|&nbsp; ChromExplorer Report &nbsp;|</span>
+            <span></span>
+        </div>
+    </div>
+
+    {{Page3Content}}
+
+    <div class="page">
+        <div class="header">
+            <div class="header-logo">
+                <div class="logo-box">
+                    <img src="{{LogoImage}}" alt="MassTech Logo" style="height: 40px;" />
+                </div>
+            </div>
+            <div class="header-title">MassTech</div>
+            <div class="header-timestamp">{{GeneratedDate}}</div>
+        </div>
+
+        <div class="section-header">Post-Processing / Smoothing Settings</div>
+
+        <div class="pp-container">
+
+            <div class="pp-table-wrapper">
+                <div class="pp-sub-header">Spectrum Post-Processing Operations</div>
+                <table class="pp-table">
+                    <tbody>
+                        <tr><td>Remove spikes</td>        <td class="{{RemoveSpikesClass}}">{{RemoveSpikes}}</td></tr>
+                        <tr><td>Median Multiplier</td>    <td>{{MedianMultiplier}}</td></tr>
+                        <tr><td>Width Threshold</td>      <td>{{WidthThreshold}}</td></tr>
+                        <tr><td>Min Width</td>            <td>{{MinWidth}}</td></tr>
+                        <tr><td>Max Width</td>            <td>{{MaxWidth}}</td></tr>
+                        <tr><td>Peak-Pick Threshold</td>  <td>{{PeakPickThreshold}}</td></tr>
+                        <tr><td>Normalize</td>            <td class="{{NormalizeClass}}">{{Normalize}}</td></tr>
+                        <tr><td>Normalize To</td>         <td>{{NormalizeTo}}</td></tr>
+                        <tr><td>Shift To Zero</td>        <td>{{ShiftToZero}}</td></tr>
+                        <tr><td>Median Filter</td>        <td class="{{MedianFilterClass}}">{{MedianFilter}}</td></tr>
+                        <tr><td>Window Size</td>          <td>{{WindowSize}}</td></tr>
+                        <tr><td>Savitzky-Golay Smoother</td><td class="{{SGSmootherClass}}">{{SGSmoother}}</td></tr>
+                        <tr><td>Polynomial Degree (M)</td><td>{{SGPolynomialDegree}}</td></tr>
+                        <tr><td>Points Left (nL)</td>     <td>{{SGPointsLeft}}</td></tr>
+                        <tr><td>Points Right (nR)</td>    <td>{{SGPointsRight}}</td></tr>
+                        <tr><td>Gaussian Filter</td>      <td class="{{GaussianFilterClass}}">{{GaussianFilter}}</td></tr>
+                        <tr><td>Function Width (kernel size)</td><td>{{GaussianKernelSize}}</td></tr>
+                        <tr><td>Gaussian Width (sigma)</td><td>{{GaussianSigma}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pp-table-wrapper">
+                <div class="pp-sub-header">EIC Post-Processing Operations</div>
+                <table class="pp-table">
+                    <tbody>
+                        <tr><td>Savitzky–Golay Filter</td>      <td class="{{EICSGFilterClass}}">{{EICSGFilter}}</td></tr>
+                        <tr><td>Polynomial Degree</td>           <td>{{EICSGPolynomialDegree}}</td></tr>
+                        <tr><td>Points Left (NL)</td>            <td>{{EICSGPointsLeft}}</td></tr>
+                        <tr><td>Points Right (NR)</td>           <td>{{EICSGPointsRight}}</td></tr>
+                        <tr><td>Gaussian Filter</td>             <td class="{{EICGaussianFilterClass}}">{{EICGaussianFilter}}</td></tr>
+                        <tr><td>Function Width (kernel size)</td><td>{{EICGaussianKernelSize}}</td></tr>
+                        <tr><td>Gaussian Width (sigma)</td>      <td>{{EICGaussianSigma}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <span class="footer-center">Page 5 &nbsp;|&nbsp; ChromExplorer Report &nbsp;|</span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="header">
+            <div class="header-logo">
+                <div class="logo-box">
+                    <img src="{{LogoImage}}" alt="MassTech Logo" style="height: 40px;" />
+                </div>
+            </div>
+            <div class="header-title">MassTech</div>
+            <div class="header-timestamp">{{GeneratedDate}}</div>
+        </div>
+
+        <div class="section-header">Manual Peak Integration &amp; Signal-to-Noise (SNR) Analysis</div>
+
+        <div class="params-grid">
+            <div class="param-table-wrap">
+                <table class="param-table">
+                    <caption>Peak Integration Result</caption>
+                    <tbody>
+                        <tr><td>Status</td><td>{{IntegrationStatus}}</td></tr>
+                        <tr><td>Start Time</td><td>{{IntegrationStartTime}}</td></tr>
+                        <tr><td>End Time</td><td>{{IntegrationEndTime}}</td></tr>
+                        <tr><td>Retention Time (Peak Apex)</td><td>{{IntegrationRT}}</td></tr>
+                        <tr><td>Integrated Area</td><td>{{IntegrationArea}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="param-table-wrap">
+                <table class="param-table">
+                    <caption>Signal-to-Noise (SNR) Result</caption>
+                    <tbody>
+                        <tr><td>Status</td><td>{{SNRStatus}}</td></tr>
+                        <tr><td>Signal Definition</td><td>{{SNRSignalDefinition}}</td></tr>
+                        <tr><td>Signal Value</td><td>{{SNRSignalValue}}</td></tr>
+                        <tr><td>Noise Definition</td><td>{{SNRNoiseDefinition}}</td></tr>
+                        <tr><td>Noise Value</td><td>{{SNRNoiseValue}}</td></tr>
+                        <tr><td>SNR Ratio</td><td>{{SNRRatio}}</td></tr>
+                        <tr><td>Noise Region Used</td><td>{{SNRNoiseRegionUsed}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span class="footer-center">Page 6 &nbsp;|&nbsp; ChromExplorer Report &nbsp;|</span>
+            <span></span>
+        </div>
+    </div>
+
+</body>
+</html>

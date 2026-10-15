@@ -1,0 +1,306 @@
+<UserControl x:Class="ChromExplorer.Modules.Auth.Views.ReviewSavedFiles"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ChromExplorer.Modules.Auth.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="1000" Background="#1976D2">
+
+    <UserControl.Resources>
+        <Style x:Key="ActionBtnStyle" TargetType="Button">
+            <Setter Property="Width" Value="54"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Margin" Value="3,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Border Background="White" CornerRadius="12" BorderBrush="#E0E0E0" BorderThickness="1">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0" Margin="0,0,0,16">
+
+                    <TextBlock Text="Review Saved Files"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="#2D3E50"
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left"/>
+
+                    <Button Content="Back"
+                        Click="BackButton_Click"
+                        DockPanel.Dock="Right"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Width="80"
+                        Height="30"
+                        Background="#2D3E50"
+                        Foreground="Black"
+                        BorderThickness="0"
+                        FontWeight="SemiBold"
+                        Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                </DockPanel>
+
+                <TabControl x:Name="ReviewTabs" Grid.Row="1" Margin="0,0,0,0" SelectionChanged="ReviewTabs_SelectionChanged">
+                    <TabItem Header="Sample Sequence" Tag="Sample Sequence"/>
+                    <TabItem Header="Report" Tag="Report"/>
+                    <TabItem Header="Method File" Tag="Method File"/>
+                    <TabItem Header="Data Processing Method" Tag="Data Processing Method"/>
+                </TabControl>
+
+                <Grid Grid.Row="2" Margin="0,10,0,0">
+                <DataGrid x:Name="SavedFilesGrid" AutoGenerateColumns="False" CanUserAddRows="False"
+                          HeadersVisibility="Column" GridLinesVisibility="Horizontal" IsReadOnly="True"
+                          HorizontalGridLinesBrush="#F0F0F0" BorderThickness="0" Background="Transparent"
+                          RowHeight="40" FontSize="12.5" Padding="10">
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#F8F9FA"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Padding" Value="10,12"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                    <Setter Property="Background" Value="#F5F5F5"/>
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Sr.No" Binding="{Binding SrNo}" Width="50"/>
+
+                        <DataGridTextColumn Header="Folder Path" Binding="{Binding FolderPath}" Width="200"/>
+
+                        <DataGridTextColumn Header="File Name" Binding="{Binding FileNameWithExt}" Width="190">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTemplateColumn Header="Status" Width="90">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" FontWeight="SemiBold">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Active"/>
+                                                <Setter Property="Foreground" Value="#2E7D32"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                                        <Setter Property="Text" Value="Inactive"/>
+                                                        <Setter Property="Foreground" Value="#757575"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Review Status" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" ToolTip="{Binding ReviewerRemark}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Not reviewed yet"/>
+                                                <Setter Property="Foreground" Value="#B26A00"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMethodFile}" Value="True">
+                                                        <Setter Property="Text" Value="{Binding ReviewStatus}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ReviewStatus}" Value="Not Submitted">
+                                                        <Setter Property="Foreground" Value="#757575"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsReviewed}" Value="True">
+                                                        <Setter Property="Text" Value="Reviewed"/>
+                                                        <Setter Property="Foreground" Value="#2E7D32"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Verdict" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding ReviewVerdict}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="#2E7D32"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ReviewVerdict}" Value="Rejected">
+                                                        <Setter Property="Foreground" Value="#C62828"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Reviewer Remark" Width="180">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                               Text="{Binding ReviewerRemark}" ToolTip="{Binding ReviewerRemark}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="#2E7D32"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ReviewVerdict}" Value="Rejected">
+                                                        <Setter Property="Foreground" Value="#C62828"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Reviewed By (Role)" Binding="{Binding ReviewedBySignature}" Width="135"/>
+                        <DataGridTextColumn Header="Reviewed Date" Binding="{Binding ReviewedDate}" Width="120"/>
+                        <DataGridTextColumn Header="Created By (Role)" Binding="{Binding InsertedBySignature}" Width="130"/>
+                        <DataGridTextColumn Header="Inserted Date" Binding="{Binding InsertedDate}" Width="120"/>
+                        <DataGridTextColumn Header="Updated By" Binding="{Binding UpdatedByName}" Width="95"/>
+                        <DataGridTextColumn Header="Updated Date" Binding="{Binding UpdatedDate}" Width="120"/>
+
+                        <DataGridTemplateColumn Header="Action" Width="250">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Tag="SubmitForReview" Content="Submit for Review"
+                                                Background="#1976D2" Foreground="White"
+                                                Click="Action_Click" CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource ActionBtnStyle}">
+                                                    <Setter Property="Width" Value="110"/>
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding CanSubmitForReview}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Content="View" Tag="View" Style="{StaticResource ActionBtnStyle}"
+                                                Background="#1976D2" Foreground="White"
+                                                Click="Action_Click" CommandParameter="{Binding}"/>
+                                        <Button Tag="Download" Content="Download"
+                                                Background="#2E7D32" Foreground="White"
+                                                Click="Action_Click" CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource ActionBtnStyle}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <!-- Analyst-only: a Reviewer signs/approves files, they don't need to
+                                                             download their own signed-off copy the way the analyst who
+                                                             created the report does. -->
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding CanDownload}" Value="True"/>
+                                                                <Condition Binding="{Binding IsReviewerSession}" Value="False"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Tag="Review" Content="Review"
+                                                Background="#6A1B9A" Foreground="White"
+                                                Click="Action_Click" CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource ActionBtnStyle}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding CanReview}" Value="True"/>
+                                                                <Condition Binding="{Binding IsReviewerSession}" Value="True"/>
+                                                            </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Tag="ToggleActive"
+                                                Click="Action_Click" CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource ActionBtnStyle}">
+                                                    <Setter Property="Content" Value="Deactivate"/>
+                                                    <Setter Property="Background" Value="#F44336"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                                            <Setter Property="Content" Value="Activate"/>
+                                                            <Setter Property="Background" Value="#4CAF50"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock x:Name="EmptyStateText" Text="No records in this category yet."
+                           Foreground="#9AA7B4" FontSize="14" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Visibility="Collapsed"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

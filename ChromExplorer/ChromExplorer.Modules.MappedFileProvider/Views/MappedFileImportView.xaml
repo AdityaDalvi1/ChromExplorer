@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="ChromExplorer.Modules.MappedFileProvider.Views.MappedFileImportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:prism="http://www.codeplex.com/prism" 
+             xmlns:interactionRequest="clr-namespace:ChromExplorer.Infrastructure.InteractionRequest;assembly=ChromExplorer.Infrastructure" 
+             xmlns:System="clr-namespace:System;assembly=mscorlib" 
+             xmlns:Infrastructure="clr-namespace:ChromExplorer.Infrastructure;assembly=ChromExplorer.Infrastructure"
+             mc:Ignorable="d" 
+            >
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="timeUnits"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Infrastructure:TimeUnits"/>
+                </ObjectDataProvider.MethodParameters>
+
+            </ObjectDataProvider>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0, 5, 5, 5">File</TextBlock>
+                    <TextBox Margin="5" Grid.Column="1" Text="{Binding Filename, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                    <Button Grid.Column="2" Margin="5" Command="{Binding BrowseCommand}">Browse</Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">Chromatogram</TextBlock>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5">Points</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="2">InMemory</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="3">Rebuild TIC</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="1">Time units</TextBlock>
+
+
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Text="{Binding ChromPoints, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                        <CheckBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding IsInMemory}" HorizontalAlignment="Center"></CheckBox>
+                        <CheckBox Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding RecalcTic}" HorizontalAlignment="Center"></CheckBox>
+                        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" 
+                                  ItemsSource="{Binding Source={StaticResource timeUnits}}"
+                                  SelectedItem="{Binding TimeUnits}"
+                                  >
+                            
+                        </ComboBox>
+                        
+                    </Grid>
+
+                    <Border Grid.Column="2"  Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">Spectrum</TextBlock>
+                    </Border>
+
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5">Points</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="1">Mz (min)</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="2">Mz (max)</TextBlock>
+
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Text="{Binding SpectrumPoints, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Grid.Row="1" Text="{Binding MzMin, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Grid.Row="2" Text="{Binding MzMax, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                        
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+            <Button Margin="5" Command="{Binding LoadCommand}">Load</Button>
+        </StackPanel>
+        <i:Interaction.Triggers>
+            <prism:InteractionRequestTrigger SourceObject="{Binding NotificationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:NotificationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Information.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+            <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:ConfirmationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Question.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+        </i:Interaction.Triggers>
+    </Grid>
+</UserControl>

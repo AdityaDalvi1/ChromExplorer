@@ -1,0 +1,577 @@
+<UserControl x:Class="ChromExplorer.Modules.ModasGrpc.Views.MtRemoteGrpcDashboardPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Modas.Grpc.Controls;assembly=Modas.Grpc.Controls"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:interactionRequest="clr-namespace:ChromExplorer.Infrastructure.InteractionRequest;assembly=ChromExplorer.Infrastructure"
+        xmlns:conv="clr-namespace:ChromExplorer.Modules.ModasGrpc.Converters"
+        xmlns:models="clr-namespace:ChromExplorer.Modules.ModasGrpc.Models"
+        mc:Ignorable="d"
+        d:DesignHeight="640" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <conv:OneBasedIndexConverter x:Key="OneBasedIndexConverter" />
+        <conv:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+        <!-- Small rounded "browse for a file/folder" button used in the Sample Sequence grid. -->
+        <Style x:Key="BrowseButtonStyle" TargetType="Button">
+            <Setter Property="Content" Value="&#128193;" />
+            <Setter Property="Width" Value="30" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Margin" Value="3,1,1,1" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="#E1F5FE" CornerRadius="4" BorderBrush="#90CAF9" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#B3E5FC" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#81D4FA" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Background" Value="#EEEEEE" />
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#DDDDDD" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Small rounded "remove this row" button used in the Sample Sequence grid. -->
+        <Style x:Key="RemoveRowButtonStyle" TargetType="Button">
+            <Setter Property="Content" Value="&#10005;" />
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Margin" Value="3,1" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#B71C1C" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="#FFEBEE" CornerRadius="4" BorderBrush="#EF9A9A" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#FFCDD2" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#EF9A9A" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Background" Value="#EEEEEE" />
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#DDDDDD" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Disables the "Select Sample Type"/"Select Analysis Sample Type" placeholder entries
+             so they can be displayed (as the initial value) but never re-selected once the user
+             has picked a real option. -->
+        <Style x:Key="PlaceholderComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding}" Value="{x:Static models:SequenceItem.SelectSampleTypePlaceholder}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="Foreground" Value="Gray" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding}" Value="{x:Static models:SequenceItem.SelectAnalysisSampleTypePlaceholder}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="Foreground" Value="Gray" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- "Fill down" — copies this row's value for the picked field to every other Pending
+             row, so you don't have to re-select the same Sample Type/Analysis Sample
+             Type/Instrument Method/Data Folder one row at a time. Defined as a top-level
+             resource (not nested inside RowStyle's Setter) since MenuItem Click handlers can't
+             be wired to code-behind from inside a Style Setter's value. -->
+        <ContextMenu x:Key="SequenceRowContextMenu">
+            <MenuItem Header="Apply Sample Type to All Rows" Click="FillDownSampleType_Click" />
+            <MenuItem Header="Apply Analysis Sample Type to All Rows" Click="FillDownAnalysisSampleType_Click" />
+            <MenuItem Header="Apply Instrument Method to All Rows" Click="FillDownInstrumentMethod_Click" />
+            <MenuItem Header="Apply Data Folder to All Rows" Click="FillDownDataFolder_Click" />
+        </ContextMenu>
+    </UserControl.Resources>
+    <Grid>
+        <i:Interaction.Triggers>
+            <prism:InteractionRequestTrigger SourceObject="{Binding AlertRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:NotificationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Information.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+        </i:Interaction.Triggers>
+
+        <TabControl>
+
+
+            <TabItem Header="Control">
+                <Grid Background="#F5F7FA" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Header="Analysis Type" Height="Auto" Margin="0,10,0,0" >
+                        <Grid Margin="0, 0, 0, 5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Margin="2,5,5,3">Sample Type</TextBlock>
+                            <ComboBox  Grid.Row="0" Grid.Column="1" Margin="2,5,5,3" ItemsSource="{Binding AnalysisTypes}"
+                                           SelectedValue="{Binding SelectedAnalysisType}">
+                            </ComboBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="2,5,5,3">Sample Name</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="2,5,5,3" MaxWidth="130" Text="{Binding SampleName, UpdateSourceTrigger=PropertyChanged}">
+                            </TextBox>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="General" Height="Auto" Margin="0,10,0,0" Grid.Row="1" Grid.Column="0" DataContext="{Binding GeneralVM}">
+                        <Grid Margin="0, 0, 0, 5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Margin="2,5,5,3">Acquisition Length</TextBlock>
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,5,5,3" Text="{Binding AcquisitionLength}"></TextBox>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Margin="2,5,5,3">seconds</TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Margin="2,5,5,3">Instrument Method</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="2,5,5,3" MaxWidth="130" controls:TextBoxHelper.AutoScrollToEnd="True"  Text="{Binding ModasMethod}">
+
+                            </TextBox>
+                            <Button Grid.Row="1" Grid.Column="2" Margin="2,5,5,3" Width="30" Command="{Binding BrowseInstrumentMethodCommand}">...</Button>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Margin="2,5,5,3">Data Folder</TextBlock>
+                            <TextBox Grid.Row="2" Grid.Column="1" Margin="2,5,5,3" MaxWidth="130" Text="{Binding DataFolder}">
+                            </TextBox>
+                            <Button Grid.Row="2" Grid.Column="2" Margin="2,5,5,3" Width="30" Command="{Binding BrowseDataFolderCommand}">...</Button>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Ion Source" Height="Auto" Margin="0,10,0,0" Grid.Column="1" Grid.Row="0" >
+                        <controls:IonSourceControlView Name="IonSourceControlView" Margin="5" />
+                    </GroupBox>
+
+
+                    <GroupBox Header="Syringe" Height="Auto" Margin="0,10,0,0" Grid.Column="1" Grid.Row="1" Visibility="{Binding SyringeControlVM.Visibility}">
+                        <controls:SyringeControlView Name="SyringeView" Margin="5" />
+                    </GroupBox>
+
+                    <GroupBox Header="Overrides" Height="Auto" Margin="0,10,0,0" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" >
+                        <controls:MethodOverridesView Name="MethodOverridesView" />
+                    </GroupBox>
+
+                    <GroupBox Header="Status" Height="Auto" Margin="0,10,0,0" Grid.Column="3" Grid.Row="0" Grid.RowSpan="4" >
+                        <ScrollViewer>
+                            <controls:StatusView Name="NewStatusView" />
+                        </ScrollViewer>
+                    </GroupBox>
+                    <GroupBox Header="Control" Height="Auto" Margin="0,10,0,0" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3"  >
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="MinWidth" Value="90" />
+                                    <Setter Property="Height" Value="32" />
+                                    <Setter Property="Margin" Value="3" />
+                                    <Setter Property="Padding" Value="10,0" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button Background="#E1F5FE" Command="{Binding InitCommand}">Init</Button>
+                            <Button Background="#C8E6C9" Command="{Binding AnalysisCommand}">Start Analysis</Button>
+                            <Button Background="#E1F5FE" Command="{Binding SaveAnalysisCommand}">Save</Button>
+                            <Button Background="#FFEBEE" Command="{Binding OffCommand}">Off</Button>
+                            <Button Background="#FFF3E0" Command="{Binding StandbyCommand}">Standby</Button>
+                            <Button Background="#E8F5E9" Command="{Binding ReadyCommand}">Ready</Button>
+                            <Button Background="#F3E5F5" Command="{Binding ResetCommand}">Reset</Button>
+                            <Button Background="#FFCDD2" Command="{Binding AbortCommand}"
+                                    ToolTip="Abort the running analysis (or the running sample of a sequence) — asks for a reason">Abort</Button>
+                        </StackPanel>
+                    </GroupBox>
+
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Real Time">
+                <Grid Background="#F0F0F0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Top Controls: Actions and Status -->
+                    <Border Grid.Row="0" Margin="5" Padding="5" Background="White" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1">
+                        <StackPanel>
+                            <WrapPanel Orientation="Horizontal">
+                                <GroupBox Header="Connection" Margin="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="3" Width="85" Height="30" Background="#E1F5FE" Command="{Binding RequestControlCommand}">Control</Button>
+                                        <Button Margin="3" Width="85" Height="30" Background="#E1F5FE" Command="{Binding PingCommand}">Ping</Button>
+                                        <Button Margin="3" Width="85" Height="30" Background="#E1F5FE" Command="{Binding StatusFeedCommand}">Status Feed</Button>
+                                        <Button Margin="3" Width="85" Height="30" Background="#FFE0B2" Command="{Binding StopStatusFeedCommand}">Stop Feed</Button>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Instrument State" Margin="2">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Margin="3" Width="85" Height="30" Background="#E8F5E9" Command="{Binding InstrumentStatusCommand}">Get State</Button>
+                                        <Border Margin="5,0" Padding="10,5" Background="#F5F5F5" CornerRadius="3" BorderBrush="#DDD" BorderThickness="1">
+                                            <TextBlock Text="{Binding InstrumentState}" FontWeight="Bold" VerticalAlignment="Center" />
+                                        </Border>
+                                        <Button Margin="3" Width="85" Height="30" Background="#E8F5E9" Command="{Binding IonSourceInfoCommand}">Ion Source</Button>
+                                        <Border Margin="5,0" Padding="10,5" Background="#F5F5F5" CornerRadius="3" BorderBrush="#DDD" BorderThickness="1">
+                                            <TextBlock Text="{Binding IonSourceID}" FontWeight="Bold" VerticalAlignment="Center" />
+                                        </Border>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Operations" Margin="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="3" Width="85" Height="30" Background="#C8E6C9" FontWeight="Bold" Command="{Binding StartCommand}">START</Button>
+                                        <Button Margin="3" Width="85" Height="30" Background="#FFCDD2" FontWeight="Bold" Command="{Binding StopCommand}">STOP</Button>
+                                    </StackPanel>
+                                </GroupBox>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Middle: Parameters and Settings -->
+                    <Border Grid.Row="1" Margin="5" Padding="5" Background="White" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1">
+                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="5,0">
+                                <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Scan Count:</TextBlock>
+                                <TextBox Width="50" Height="25" VerticalContentAlignment="Center" Text="{Binding ScanCount}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5,0">
+                                <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Duration (s):</TextBlock>
+                                <TextBox Width="50" Height="25" VerticalContentAlignment="Center" Text="{Binding ScanDuration}" />
+                            </StackPanel>
+                            <Separator Width="1" Height="20" Margin="10,0" Background="#DDD" />
+                            <CheckBox Margin="5,0" Content="Enable Save" IsChecked="{Binding EnableSave}" VerticalAlignment="Center" />
+                            <CheckBox Margin="10,0" Content="Spectra" IsChecked="{Binding SendSpectraData}" VerticalAlignment="Center" />
+                            <CheckBox Margin="5,0" Content="Profile" IsChecked="{Binding SendProfileData}" VerticalAlignment="Center" />
+                            <Separator Width="1" Height="20" Margin="10,0" Background="#DDD" />
+                            <Button Margin="5,0" Width="90" Height="25" Command="{Binding DebugIsCommand}">Debug (IS)</Button>
+                            <Button Margin="5,0" Width="90" Height="25" Command="{Binding LoadMethodCommand}">Load Method</Button>
+                            <TextBox Margin="3,0" Width="120" Height="25" VerticalContentAlignment="Center" Text="{Binding MethodFileName}" />
+                        </WrapPanel>
+                    </Border>
+
+                    <!-- Bottom Part: Graph and Messages -->
+                    <Grid Grid.Row="2" Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="80" />
+                        </Grid.RowDefinitions>
+
+                        <!-- The Graph (Using full width now) -->
+                        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Background="White" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1" Margin="0,0,5,0">
+                            <oxy:PlotView Model="{Binding SpectrumPlot}" Controller="{Binding Controller}" />
+                        </Border>
+
+                        <!-- Status View -->
+                        <Border Grid.Column="2" Grid.Row="0" Background="White" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1">
+                            <controls:StatusView x:Name="StatusView" />
+                        </Border>
+
+                        <GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" HorizontalAlignment="Stretch" Background="#DDD" Margin="5,0" />
+
+                        <!-- Messages (The "Grey Part" is now just for remote messages, no more LogText) -->
+                        <Border Grid.Column="2" Grid.Row="2" Background="#F5F5F5" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1">
+                            <controls:RemoteMessageView x:Name="MessageView" />
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Sample Sequence">
+                <Grid Background="#F5F7FA">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Margin="5" Padding="5" Background="White" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button">
+                                    <Setter Property="MinWidth" Value="110" />
+                                    <Setter Property="Height" Value="32" />
+                                    <Setter Property="Margin" Value="3" />
+                                    <Setter Property="Padding" Value="10,0" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button Background="#E1F5FE" Command="{Binding CreateSequenceCommand}">Create Sequence</Button>
+                            <Button Background="#E1F5FE" Command="{Binding OpenSequenceCommand}">Open Sequence</Button>
+                            <Button Background="#E1F5FE" Command="{Binding SaveSequenceCommand}">Save Sequence</Button>
+                            <Separator Width="1" Height="24" Margin="10,0" Background="#DDD" />
+                            <Button Background="#E8EAF6" Command="{Binding AddSampleCommand}" ToolTip="Adds a new row — fill it in directly in the grid">Add Sample</Button>
+                            <Button Background="#FFEBEE" Command="{Binding RemoveSampleCommand}">Remove Sample</Button>
+                            <Separator Width="1" Height="24" Margin="10,0" Background="#DDD" />
+                            <Button Background="#C8E6C9" Command="{Binding RunSequenceCommand}">Run Sequence</Button>
+                            <Button Background="#FFCDD2" Command="{Binding StopSequenceCommand}" ToolTip="Stop the sequence after the current sample finishes — asks for a reason">Abort</Button>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,5,0">
+                        <TextBlock Text="Sequence File:" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding SequenceFileDisplayName}" FontWeight="Bold" Margin="6,0,0,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding SequenceFileStatusText, StringFormat='  ({0})'}" Foreground="{Binding SequenceFileStatusBrush}" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SequenceFileStatusText}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding SequenceFileRemarkText}" Foreground="Firebrick" FontWeight="SemiBold" Margin="14,0,0,0" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SequenceFileRemarkText}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <Border Grid.Row="2" Margin="5" Padding="5" Background="White" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1">
+                        <DataGrid x:Name="SequenceGrid"
+                                  ItemsSource="{Binding SequenceItems}"
+                                  SelectedItem="{Binding SelectedSequenceItem}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  IsReadOnly="{Binding IsSequenceRunning}"
+                                  HeadersVisibility="Column"
+                                  GridLinesVisibility="Horizontal"
+                                  AlternationCount="100000">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="ContextMenu" Value="{StaticResource SequenceRowContextMenu}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Status}" Value="Acquiring">
+                                            <Setter Property="Background" Value="#C8E6C9" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Status}" Value="Abort">
+                                            <Setter Property="Background" Value="#FFCDD2" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="" Width="40" IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource RemoveRowButtonStyle}"
+                                                    IsEnabled="{Binding DataContext.IsSequenceRunning, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource InverseBooleanConverter}}"
+                                                    Click="RemoveSequenceRow_Click" ToolTip="Remove this sample" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Serial Number" Width="90" IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                       Text="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource OneBasedIndexConverter}}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Status" Width="100" IsReadOnly="True" Binding="{Binding Status}">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell">
+                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                            <Style.Triggers>
+                                                <Trigger Property="Content" Value="Pending">
+                                                    <Setter Property="Foreground" Value="#757575" />
+                                                </Trigger>
+                                                <Trigger Property="Content" Value="Acquiring">
+                                                    <Setter Property="Foreground" Value="#1B5E20" />
+                                                </Trigger>
+                                                <Trigger Property="Content" Value="Completed">
+                                                    <Setter Property="Foreground" Value="#388E3C" />
+                                                </Trigger>
+                                                <Trigger Property="Content" Value="Abort">
+                                                    <Setter Property="Foreground" Value="#B71C1C" />
+                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Sample Name" Width="*" Binding="{Binding SampleName, UpdateSourceTrigger=PropertyChanged}" />
+                                <DataGridTemplateColumn Width="120">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Sample Type" VerticalAlignment="Center" />
+                                                <CheckBox Margin="6,0,0,0" VerticalAlignment="Center" Tag="SampleType"
+                                                          Checked="FillDownHeaderCheckBox_Checked"
+                                                          ToolTip="Check to apply the selected row's Sample Type to every other row" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox Margin="1" BorderThickness="0" Background="Transparent"
+                                                      IsEnabled="{Binding DataContext.IsSequenceRunning, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource InverseBooleanConverter}}"
+                                                      ItemsSource="{Binding DataContext.SampleTypeOptions, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                      ItemContainerStyle="{StaticResource PlaceholderComboBoxItemStyle}"
+                                                      SelectedItem="{Binding SampleClassification, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="150">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Analysis Sample Type" VerticalAlignment="Center" />
+                                                <CheckBox Margin="6,0,0,0" VerticalAlignment="Center" Tag="AnalysisSampleType"
+                                                          Checked="FillDownHeaderCheckBox_Checked"
+                                                          ToolTip="Check to apply the selected row's Analysis Sample Type to every other row" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <!-- A real ComboBox inside the row's own visual tree — unlike
+                                                 DataGridComboBoxColumn.ItemsSource, this can actually find
+                                                 the DataGrid's DataContext via RelativeSource. -->
+                                            <ComboBox Margin="1" BorderThickness="0" Background="Transparent"
+                                                      IsEnabled="{Binding DataContext.IsSequenceRunning, RelativeSource={RelativeSource AncestorType=DataGrid}, Converter={StaticResource InverseBooleanConverter}}"
+                                                      ItemsSource="{Binding DataContext.AnalysisSampleTypeOptions, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                      ItemContainerStyle="{StaticResource PlaceholderComboBoxItemStyle}"
+                                                      SelectedItem="{Binding AnalysisSampleType, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="200">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Instrument Method" VerticalAlignment="Center" />
+                                                <CheckBox Margin="6,0,0,0" VerticalAlignment="Center" Tag="InstrumentMethod"
+                                                          Checked="FillDownHeaderCheckBox_Checked"
+                                                          ToolTip="Check to apply the selected row's Instrument Method to every other row" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DockPanel IsEnabled="{Binding DataContext.IsSequenceRunning, ElementName=SequenceGrid, Converter={StaticResource InverseBooleanConverter}}">
+                                                <Button DockPanel.Dock="Right" Style="{StaticResource BrowseButtonStyle}"
+                                                        Click="BrowseInstrumentMethod_Click" ToolTip="Browse for an Instrument Method file" />
+                                                <TextBox Text="{Binding InstrumentMethod, UpdateSourceTrigger=PropertyChanged}"
+                                                         BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" />
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="220">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Data Folder" VerticalAlignment="Center" />
+                                                <CheckBox Margin="6,0,0,0" VerticalAlignment="Center" Tag="DataFolder"
+                                                          Checked="FillDownHeaderCheckBox_Checked"
+                                                          ToolTip="Check to apply the selected row's Data Folder to every other row" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DockPanel IsEnabled="{Binding DataContext.IsSequenceRunning, ElementName=SequenceGrid, Converter={StaticResource InverseBooleanConverter}}">
+                                                <Button DockPanel.Dock="Right" Style="{StaticResource BrowseButtonStyle}"
+                                                        Click="BrowseDataFolder_Click" ToolTip="Browse for a Data Folder" />
+                                                <TextBox Text="{Binding DataFolder, UpdateSourceTrigger=PropertyChanged}"
+                                                         BorderThickness="0" Background="Transparent" VerticalContentAlignment="Center" />
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Data File" Width="180" IsReadOnly="True" Binding="{Binding Filename}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Connection status indicator: Green = Ready/Connected, Orange = Standby, Grey = Disconnected, Red = Error -->
+        <Border Panel.ZIndex="10" IsHitTestVisible="False" HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,6,12,0" Padding="8,3" Background="#F5F5F5" CornerRadius="10" BorderBrush="#CCCCCC" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Width="10" Height="10" VerticalAlignment="Center" Fill="{Binding IndicatorBrush}" />
+                <TextBlock Text="{Binding IndicatorLabel}" Margin="6,0,0,0" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

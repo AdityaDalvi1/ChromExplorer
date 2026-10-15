@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{599A347F-0F80-43BE-B357-8BE9A19B84DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChromExplorer.Assets</RootNamespace>
+    <AssemblyName>ChromExplorer.Assets</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>chromexplorer.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssetExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Devices\battery.png" />
+    <Resource Include="Icons\Devices\display.png" />
+    <Resource Include="Icons\Devices\laptop.png" />
+    <Resource Include="Icons\Devices\mouse.png" />
+    <Resource Include="Icons\Devices\network.png" />
+    <Resource Include="Icons\Devices\phone.png" />
+    <Resource Include="Icons\Devices\printer.png" />
+    <Resource Include="Icons\Devices\system.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Actions\collapse.png" />
+    <Resource Include="Icons\Actions\document_start_presentation.png" />
+    <Resource Include="Icons\Actions\expand.png" />
+    <Resource Include="Icons\Actions\locked_16.png" />
+    <Resource Include="Icons\Actions\redo.png" />
+    <Resource Include="Icons\Actions\system_help.png" />
+    <Resource Include="Icons\Actions\tab_close.png" />
+    <Resource Include="Icons\Actions\undo.png" />
+    <Resource Include="Icons\Actions\unlock_16.png" />
+    <Resource Include="Icons\Actions\view_text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Perspectives\analyze_large.png" />
+    <Resource Include="Icons\Perspectives\default_large.png" />
+    <Resource Include="Icons\Perspectives\logging_large.png" />
+    <Resource Include="Icons\Perspectives\minibio_legacy_large.png" />
+    <Resource Include="Icons\Perspectives\system_help_large.png" />
+    <Resource Include="Icons\Perspectives\welcome_large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Styles\SettingsStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LargeIcons\Devices\battery.png" />
+    <Resource Include="LargeIcons\Devices\display.png" />
+    <Resource Include="LargeIcons\Devices\laptop.png" />
+    <Resource Include="LargeIcons\Devices\mouse.png" />
+    <Resource Include="LargeIcons\Devices\network.png" />
+    <Resource Include="LargeIcons\Devices\phone.png" />
+    <Resource Include="LargeIcons\Devices\printer.png" />
+    <Resource Include="LargeIcons\Devices\system.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Actions\editcopy.png" />
+    <Resource Include="Icons\Actions\viewmagfit.png" />
+    <Resource Include="Icons\Actions\view_filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Actions\select_rectangular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Actions\edit_clear_list.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LargeIcons\Apps\kmplot.png" />
+    <Resource Include="LargeIcons\Apps\preferences_system.png" />
+    <Resource Include="LargeIcons\Apps\system_file_manager.png" />
+    <Resource Include="LargeIcons\Apps\system_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="chromexplorer.snk" />
+    <None Include="ReportPDF.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Icons\Perspectives\MT_logo_12x4_wb_pp-scaled.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Auto-Size-Columns.png" />
+    <Resource Include="MetroIcons\Clean.png" />
+    <Resource Include="MetroIcons\Copy.png" />
+    <Resource Include="MetroIcons\Diagram.png" />
+    <Resource Include="MetroIcons\Help.png" />
+    <Resource Include="MetroIcons\Open.png" />
+    <Resource Include="MetroIcons\Scale-To-Fit.png" />
+    <Resource Include="MetroIcons\Selection-Modes.png" />
+    <Resource Include="MetroIcons\Tools-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Rectangle-Selection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Small\Auto-Size-Columns.png" />
+    <Resource Include="MetroIcons\Small\Clean.png" />
+    <Resource Include="MetroIcons\Small\Copy.png" />
+    <Resource Include="MetroIcons\Small\Diagram.png" />
+    <Resource Include="MetroIcons\Small\Help.png" />
+    <Resource Include="MetroIcons\Small\Open.png" />
+    <Resource Include="MetroIcons\Small\Rectangle-Selection.png" />
+    <Resource Include="MetroIcons\Small\Scale-To-Fit.png" />
+    <Resource Include="MetroIcons\Small\Selection-Modes.png" />
+    <Resource Include="MetroIcons\Small\Tools-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Library-Books.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Small\Library-Books.png" />
+    <Resource Include="MetroIcons\Small\Swap-Left.png" />
+    <Resource Include="MetroIcons\Small\Swap-Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Beaker New -02-WF.png" />
+    <Resource Include="MetroIcons\Beaker-01-WF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Data delete-WF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Export-02-WF.png" />
+    <Resource Include="MetroIcons\Open Folder-WF.png" />
+    <Resource Include="MetroIcons\Save-02-WF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Certificate-New-WF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Solution-02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Fruit-Banana-01.png" />
+    <Resource Include="MetroIcons\Injection - 02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Media Play1-WF.png" />
+    <Resource Include="MetroIcons\Setting_2-WF.png" />
+    <Resource Include="MetroIcons\Stop Media-01-WF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\add-friend.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\logout_test.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MetroIcons\Microsoft-Logo--Streamline-Ultimate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

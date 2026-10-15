@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.1.0.0" name="ModasDataModel" targetNamespace="ChromExplorer.ModasReader" databaseProvider="Sqlite3" connectionString="Data Source = source.db3" pluralizedInDatabase="false" mediumTrustCompatibility="false" xmlns="http://namespaces.mindscape.co.nz/lightspeed">
+  <entities>
+    <entity name="Method" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="MethodCrc" dataType="Int64" />
+        <entityProperty name="BinaryData" dataType="Blob">
+          <validations>
+            <presenceValidation />
+          </validations>
+        </entityProperty>
+        <entityProperty name="Xml">
+          <validations>
+            <presenceValidation />
+          </validations>
+        </entityProperty>
+      </entityProperties>
+      <oneToManyAssociations>
+        <oneToManyAssociation Id="c3ac5580-cf9a-4bc6-bf0f-5e5bf1519b7c" collectionName="Spectrums" backreferenceName="Method" isNullable="true">
+          <entityMoniker name="/ModasDataModel/Spectrum" />
+        </oneToManyAssociation>
+      </oneToManyAssociations>
+    </entity>
+    <entity name="Calibrations" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="P0" dataType="Double" isNullable="true" />
+        <entityProperty name="P1" dataType="Double" isNullable="true" />
+        <entityProperty name="P2" dataType="Double" isNullable="true" />
+        <entityProperty name="P3" dataType="Double" isNullable="true" />
+        <entityProperty name="P4" dataType="Double" isNullable="true" />
+        <entityProperty name="P5" dataType="Double" isNullable="true" />
+        <entityProperty name="P6" dataType="Double" isNullable="true" />
+        <entityProperty name="P7" dataType="Double" isNullable="true" />
+        <entityProperty name="P8" dataType="Double" isNullable="true" />
+        <entityProperty name="P9" dataType="Double" isNullable="true" />
+        <entityProperty name="Type" dataType="Int32" />
+        <entityProperty name="CodeName">
+          <validations>
+            <presenceValidation />
+          </validations>
+        </entityProperty>
+        <entityProperty name="RawData" dataType="Blob" isNullable="true" />
+      </entityProperties>
+      <oneToManyAssociations>
+        <oneToManyAssociation Id="f43caa41-9aaf-4ce0-817e-750d9ceada75" collectionName="SpetrumCalibrations" backreferenceName="Calibrations" isNullable="false">
+          <entityMoniker name="/ModasDataModel/SpetrumCalibrations" />
+        </oneToManyAssociation>
+        <oneToManyAssociation Id="dcdf1595-ebd5-4711-975b-a1a8ee45c2fe" collectionName="Spectrums" backreferenceName="Calibrations" isNullable="true">
+          <entityMoniker name="/ModasDataModel/Spectrum" />
+        </oneToManyAssociation>
+      </oneToManyAssociations>
+    </entity>
+    <entity name="Spectrum" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="Timestamp" dataType="DateTime" />
+        <entityProperty name="DataSize" dataType="Int32" />
+        <entityProperty name="DataCrc" dataType="Int64" />
+        <entityProperty name="Tic" dataType="Double" />
+        <entityProperty name="BasePeakIndex" dataType="Int32" />
+        <entityProperty name="ElapsedMilliseconds" dataType="Double" />
+        <entityProperty name="DigitizerSampleRate" dataType="Double" />
+        <entityProperty name="BasePeakIntensity" dataType="Double" />
+        <entityProperty name="MsPower" dataType="Int32" />
+        <entityProperty name="ParentIonMass" dataType="Double" />
+        <entityProperty name="InjectionTime" dataType="Double" />
+      </entityProperties>
+      <oneToManyAssociations>
+        <oneToManyAssociation Id="9e9c673d-e58a-4f47-94c1-acd0c2c35542" collectionName="SpectrumData" backreferenceName="Spectrum" isNullable="false">
+          <entityMoniker name="/ModasDataModel/SpectrumData" />
+        </oneToManyAssociation>
+        <oneToManyAssociation Id="a528f17e-8758-4d3f-a9b6-b815983172e8" collectionName="SpetrumCalibrations" backreferenceName="Spectrum" isNullable="false">
+          <entityMoniker name="/ModasDataModel/SpetrumCalibrations" />
+        </oneToManyAssociation>
+      </oneToManyAssociations>
+    </entity>
+    <entity name="SpectrumData" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="Data" dataType="Blob" isNullable="true" />
+      </entityProperties>
+    </entity>
+    <entity name="SpetrumCalibrations" identityType="Int32" cacheExpiry="0" />
+    <entity name="ModasVersion" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="Name" isNullable="true" />
+        <entityProperty name="Major" dataType="Int32" isNullable="true" />
+        <entityProperty name="Minor" dataType="Int32" isNullable="true" />
+        <entityProperty name="Revision" dataType="Int32" isNullable="true" />
+      </entityProperties>
+    </entity>
+  </entities>
+</model>

@@ -1,0 +1,45 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="ChromExplorer.Infrastructure.InteractionRequest.ucWaitControl"
+	x:Name="UserControl"
+	Width="24" Height="24">
+	<UserControl.Resources>
+		<Storyboard x:Key="OnLoaded1">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="path" RepeatBehavior="Forever">
+				<EasingDoubleKeyFrame KeyTime="0" Value="360"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.284"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource OnLoaded1}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
+
+	<Grid x:Name="LayoutRoot">
+		<Grid.ColumnDefinitions>
+		
+		</Grid.ColumnDefinitions>
+		<Path x:Name="path" Data="M95,35.499999 C62.139057,35.5 35.5,62.139057 35.499999,95 35.5,127.86094 62.139057,154.5 95,154.5 127.86094,154.5 154.5,127.86094 154.5,95 154.5,62.139057 127.86094,35.5 95,35.499999 z M95,0.5 C147.19091,0.5 189.5,42.809091 189.5,95 189.5,147.19091 147.19091,189.5 95,189.5 42.809091,189.5 0.5,147.19091 0.5,95 0.5,42.809091 42.809091,0.5 95,0.5 z" Stretch="Fill" Stroke="Black" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+			<Path.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Path.RenderTransform>
+			<Path.Fill>
+				<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+					<GradientStop Color="#FF050F21" Offset="0.004"/>
+					<GradientStop Color="#FFA4B3D0" Offset="0.733"/>
+				</LinearGradientBrush>
+			</Path.Fill>
+		</Path>
+	</Grid>
+</UserControl>

@@ -1,0 +1,6 @@
+﻿namespace Modas.Grpc.Models
+{
+    
+}
+
+

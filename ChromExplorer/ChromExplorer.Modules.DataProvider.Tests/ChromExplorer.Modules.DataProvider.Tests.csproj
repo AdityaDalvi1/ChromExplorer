@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4A59DA48-7B79-4080-9816-D96DAD5152D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChromExplorer.Modules.DataProvider.Tests</RootNamespace>
+    <AssemblyName>ChromExplorer.Modules.DataProvider.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>chromexplorer.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Forms\DataProviderDialogForm.xaml.cs">
+      <DependentUpon>DataProviderDialogForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataProviderTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChromExplorer.Assets\ChromExplorer.Assets.csproj">
+      <Project>{599A347F-0F80-43BE-B357-8BE9A19B84DA}</Project>
+      <Name>ChromExplorer.Assets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.DataModel.Interfaces\ChromExplorer.DataModel.Interfaces.csproj">
+      <Project>{6F16240B-DEF1-4524-8379-150D46596C6C}</Project>
+      <Name>ChromExplorer.DataModel.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.DataModel\ChromExplorer.DataModel.csproj">
+      <Project>{80B59C0F-5657-420C-8D83-B18A7E814C88}</Project>
+      <Name>ChromExplorer.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Infrastructure\ChromExplorer.Infrastructure.csproj">
+      <Project>{A6FF9E15-A29C-4F45-992E-A34D595F43B0}</Project>
+      <Name>ChromExplorer.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Mocks\ChromExplorer.Mocks.csproj">
+      <Project>{A50AE8FE-0529-4699-B166-BBFADE82C22C}</Project>
+      <Name>ChromExplorer.Mocks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.DataProvider\ChromExplorer.Modules.DataProvider.csproj">
+      <Project>{308B53E8-BAAF-4048-B1F7-B4750D84C5A6}</Project>
+      <Name>ChromExplorer.Modules.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.MappedFileProvider\ChromExplorer.Modules.MappedFileProvider.csproj">
+      <Project>{7EBA285D-18C7-49EA-8EBC-4BFEE2C12009}</Project>
+      <Name>ChromExplorer.Modules.MappedFileProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.ModasChromProvider\ChromExplorer.Modules.ModasChromProvider.csproj">
+      <Project>{CB767930-B7AF-49EB-B3C4-A8A857FF804B}</Project>
+      <Name>ChromExplorer.Modules.ModasChromProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PostProcessing.MedianFilter\ChromExplorer.PostProcessing.MedianFilter.csproj">
+      <Project>{4F78CEEE-3E00-4823-BEF8-8BA9D9198DCF}</Project>
+      <Name>ChromExplorer.PostProcessing.MedianFilter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PostProcessing.SavitzkyGolaySmoother\ChromExplorer.PostProcessing.SavitzkyGolaySmoother.csproj">
+      <Project>{85650685-6CF5-4205-A578-4CD32471A4AF}</Project>
+      <Name>ChromExplorer.PostProcessing.SavitzkyGolaySmoother</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Services.PostProcessingService\ChromExplorer.Services.PostProcessingService.csproj">
+      <Project>{62C61F10-A28E-4D71-AF0F-8BFFF801F482}</Project>
+      <Name>ChromExplorer.Services.PostProcessingService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Forms\DataProviderDialogForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="chromexplorer.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Prism">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite.Core">
+      <Version>1.0.119</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

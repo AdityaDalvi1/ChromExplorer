@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="ChromExplorer.Modules.Help.Views.XpsHelpView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  
+             xmlns:prism="http://www.codeplex.com/prism" 
+             xmlns:interactionRequest="clr-namespace:ChromExplorer.Infrastructure.InteractionRequest;assembly=ChromExplorer.Infrastructure" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DocumentViewer Name="DocumentViewer" Document="{Binding SampleHelpDocument}" DataContextChanged="DocumentViewerDataContextChanged" Margin="5">
+        </DocumentViewer>
+        <StackPanel Grid.Row="1" Margin="5" Orientation="Horizontal">
+            <Button Margin="5" Command="{Binding NotificationCommand}">Notification Dialog</Button>
+            <Button Margin="5" Command="{Binding ConfirmationCommand}">Conformation Dialog</Button>
+            <Button Margin="5" Command="{Binding WaitCursorCommand}">Busy Cursor</Button>
+            <Button Margin="5">Popup Non-Modal Dialog</Button>
+        </StackPanel>
+        <i:Interaction.Triggers>
+            <prism:InteractionRequestTrigger SourceObject="{Binding NotificationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:NotificationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Information.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+            <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:ConfirmationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Question.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+        </i:Interaction.Triggers>
+    </Grid>
+</UserControl>

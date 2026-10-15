@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AFA9DFFA-0722-4C2C-BF73-AF82AA1AD624}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChromExplorer.Modules.Viewer</RootNamespace>
+    <AssemblyName>ChromExplorer.Modules.Viewer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>chromexplorer.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ChromatogramPdfExporter.cs" />
+    <Compile Include="Services\ForensicPdfExporter.cs" />
+    <Compile Include="Services\ForensicReportContext.cs" />
+    <Compile Include="Services\ForensicReportData.cs" />
+    <Compile Include="Services\MethodPdfExporter.cs" />
+    <Compile Include="Services\MethodReportData.cs" />
+    <Compile Include="Services\MethodReportDocumentBuilder.cs" />
+    <Compile Include="Services\ReportPreviewDocumentBuilder.cs" />
+    <Compile Include="Services\ReportSessionService.cs" />
+    <Compile Include="ViewerModule.cs" />
+    <Compile Include="Services\ChromatogramReportData.cs" />
+    <Compile Include="ViewModels\ChromatogramPlotViewModel.cs" />
+    <Compile Include="ViewModels\ChromatogramViewViewModel.cs" />
+    <Compile Include="ViewModels\SpectrumPlotViewModel.cs" />
+    <Compile Include="Views\ChromatogramPlotView.xaml.cs">
+      <DependentUpon>ChromatogramPlotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChromatorgramView.xaml.cs">
+      <DependentUpon>ChromatorgramView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ForensicReportView.xaml.cs">
+      <DependentUpon>ForensicReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MethodReportPreviewWindow.xaml.cs">
+      <DependentUpon>MethodReportPreviewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\QuanInfoView.xaml.cs">
+      <DependentUpon>QuanInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportPreviewWindow.xaml.cs">
+      <DependentUpon>ReportPreviewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RsdInfoView.xaml.cs">
+      <DependentUpon>RsdInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportTypeSelectionDialog.xaml.cs">
+      <DependentUpon>ReportTypeSelectionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SpectrumPlotView.xaml.cs">
+      <DependentUpon>SpectrumPlotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewerNavigationItemView.xaml.cs">
+      <DependentUpon>ViewerNavigationItemView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChromExplorer.Assets\ChromExplorer.Assets.csproj">
+      <Project>{599A347F-0F80-43BE-B357-8BE9A19B84DA}</Project>
+      <Name>ChromExplorer.Assets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.DataModel.Interfaces\ChromExplorer.DataModel.Interfaces.csproj">
+      <Project>{6F16240B-DEF1-4524-8379-150D46596C6C}</Project>
+      <Name>ChromExplorer.DataModel.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.DataModel\ChromExplorer.DataModel.csproj">
+      <Project>{80B59C0F-5657-420C-8D83-B18A7E814C88}</Project>
+      <Name>ChromExplorer.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Infrastructure\ChromExplorer.Infrastructure.csproj">
+      <Project>{A6FF9E15-A29C-4F45-992E-A34D595F43B0}</Project>
+      <Name>ChromExplorer.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Auth\ChromExplorer.Modules.Auth.csproj">
+      <Project>{86964C14-10AB-46AC-A503-D401E9E3CCB2}</Project>
+      <Name>ChromExplorer.Modules.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.ModasReader\ChromExplorer.ModasReader.csproj">
+      <Project>{692787D5-F339-4BA6-85AA-CC4D38E28B66}</Project>
+      <Name>ChromExplorer.ModasReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.ModasChromProvider\ChromExplorer.Modules.ModasChromProvider.csproj">
+      <Project>{CB767930-B7AF-49EB-B3C4-A8A857FF804B}</Project>
+      <Name>ChromExplorer.Modules.ModasChromProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.ModasGrpc\ChromExplorer.Modules.ModasGrpc.csproj">
+      <Project>{E91D44AC-6F7B-4E18-9C02-AABB33445566}</Project>
+      <Name>ChromExplorer.Modules.ModasGrpc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modas.Grpc.Models\Modas.Grpc.Models.csproj">
+      <Project>{9909E0C3-C2F6-471B-BE35-EC9059AA2D44}</Project>
+      <Name>Modas.Grpc.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Quan\ChromExplorer.Modules.Quan.csproj">
+      <Project>{3fef7d5f-cc5b-4760-b902-f84aa78c6f8f}</Project>
+      <Name>ChromExplorer.Modules.Quan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.NistLibrary\ChromExplorer.NistLibrary.csproj">
+      <Project>{17b092ae-1381-4a07-bd5f-800d53fe515e}</Project>
+      <Name>ChromExplorer.NistLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Plotter\ChromExplorer.Plotter.csproj">
+      <Project>{08045621-F651-4D84-8656-6A05085FCF9C}</Project>
+      <Name>ChromExplorer.Plotter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Services.PickPeakerService\ChromExplorer.Services.PickPeakerService.csproj">
+      <Project>{AED906AE-26C8-4FAB-A36D-FD56C6166E4E}</Project>
+      <Name>ChromExplorer.Services.PickPeakerService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleTracking\ModuleTracking.csproj">
+      <Project>{2B1CE424-55C8-4D5C-A890-B9BB2958F143}</Project>
+      <Name>ModuleTracking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+    <Page Include="Views\ChromatogramPlotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChromatorgramView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ForensicReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MethodReportPreviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\QuanInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportPreviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RsdInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportTypeSelectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SpectrumPlotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewerNavigationItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="chromexplorer.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Expression.Blend.Sdk.WPF">
+      <Version>1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Extended.Wpf.Toolkit">
+      <Version>3.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="log4net">
+      <Version>3.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.MEFExtensions">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="PdfSharp">
+      <Version>1.50.5147</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

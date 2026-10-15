@@ -1,0 +1,170 @@
+<UserControl x:Class="ChromExplorer.Modules.Viewer.Views.ChromatogramPlotView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cp="clr-namespace:ChromExplorer.Plotter;assembly=ChromExplorer.Plotter"
+             xmlns:ca="clr-namespace:ChromExplorer.Assets;assembly=ChromExplorer.Assets"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+             xmlns:prism="http://www.codeplex.com/prism" 
+             xmlns:interactionRequest="clr-namespace:ChromExplorer.Infrastructure.InteractionRequest;assembly=ChromExplorer.Infrastructure"
+             xmlns:views="clr-namespace:ChromExplorer.Modules.Viewer.Views"
+
+             mc:Ignorable="d"
+             Focusable="True"
+             d:DesignHeight="300" d:DesignWidth="680">
+
+
+    <Grid Name="topGrid">
+        <i:Interaction.Triggers>
+
+            <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <views:QuanInfoView />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Question.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+            <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationFromRsdViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <views:RsdInfoView />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Question.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+        </i:Interaction.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Expander Name="plotExpander" VerticalContentAlignment="Stretch" IsExpanded="True" VerticalAlignment="Stretch">
+            <Expander.Header>
+                <Grid Background="LightBlue" HorizontalAlignment="Stretch">
+                    <!--Width="{Binding
+                                 RelativeSource={RelativeSource
+                                 Mode=FindAncestor,
+                                 AncestorType={x:Type Expander}},
+                                 Path=ActualWidth}"-->
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Text="{Binding Chromatogram.Title}"
+                        ToolTip="{Binding Chromatogram.Description}"
+                        Background="LightBlue" />
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Column="2">
+                        <TextBlock Margin="10, 3, 3, 3">Index</TextBlock>
+                        <TextBlock Width="60" Margin="3"
+                                   Text="{Binding Chromatogram.FirstSelectedIndex, StringFormat={}{0:0}}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Column="3">
+                        <TextBlock Margin="10, 3, 3, 3">Count</TextBlock>
+                        <TextBlock Width="60" Margin="3"
+                                   Text="{Binding Chromatogram.SelectedIndexesCount, StringFormat={}{0:0}}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Column="4">
+                        <TextBlock Margin="10, 3, 3, 3">SIC</TextBlock>
+                        <TextBlock Width="60" Margin="3"
+                                   Text="{Binding Chromatogram.SelectedSIC, StringFormat={}{0:#.##E+0}}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Column="5">
+                        <TextBlock Margin="10, 3, 3, 3">Total</TextBlock>
+                        <TextBlock Width="60" Margin="3"
+                                   Text="{Binding Chromatogram.ChromPoints.Count, StringFormat={}{0:0}}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Column="6">
+                        <TextBlock Margin="10, 3, 3, 3">Area</TextBlock>
+                        <TextBlock Width="60" Margin="3" Text="{Binding Area, StringFormat={}{0:#.##E+0}}" />
+                    </StackPanel>
+                    <Menu Grid.Column="7" Background="LightBlue">
+                        <MenuItem Header="Export">
+                            <MenuItem Header="Chromatogram" Command="{Binding ExportChromCommand}" />
+                        </MenuItem>
+                    </Menu>
+                </Grid>
+            </Expander.Header>
+            <Grid>
+                <cp:SimplePlotter x:Name="chromatogramPlotter" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 0, 0, 0"
+                                  DataSource="{Binding Chromatogram.Points}"
+                                  Markers="{Binding Markers}"
+                                  SelectedIndex="{Binding Chromatogram.SelectedIndex, Mode=TwoWay}"
+                                  IsSelectEnabled="True"
+                                  IsMultiSelectEnabled="{Binding MultiSelectEnabled}"
+                                  SelectedIndexes="{Binding Chromatogram.SelectedIndexes, Mode=TwoWay}"
+                                  XAxisTooltip="{Binding Chromatogram.XAxisTooltipString}"
+                                  SelectionLimit="10000"
+                                  IntegrationStartTime="{Binding IntegrationStartTime}"
+                                  IntegrationEndTime="{Binding IntegrationEndTime}"
+                                  IsIntegrationActive="{Binding IsIntegrationActive}"
+                                  NoiseRegionStartTime="{Binding NoiseRegionStartTime}"
+                                  NoiseRegionEndTime="{Binding NoiseRegionEndTime}"
+                                  IsNoiseRegionActive="{Binding IsNoiseRegionActive}"
+                                  Visible="{Binding VisibleRect, Mode=OneWayToSource}" />
+
+                <Grid>
+                    <Border VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,3,0,0" CornerRadius="4"
+                            BorderBrush="LightBlue"
+                            BorderThickness="2">
+                        <Expander Background="LightBlue" IsExpanded="True">
+                            <StackPanel Orientation="Horizontal" Background="LightBlue">
+
+                                <ToggleButton Height="24" Width="24" MinHeight="0" MinWidth="0" Margin="3"
+                                              IsChecked="{Binding MultiSelectEnabled}"
+                                              ToolTip="Toggle Select/Zoom"
+                                              Style="{DynamicResource ToolbarToggleButtonStyle}">
+                                    <Image Width="16" Height="16"
+                                           Source="{ca:Asset MetroIcons/Small/Selection-Modes.png}" />
+                                </ToggleButton>
+                                <Button Height="24" Width="24" MinHeight="0" MinWidth="0" Margin="3"
+                                              Command="{Binding QuanCommand}"
+                                              ToolTip="Add to Quan table"
+                                              >
+                                    <Image Width="16" Height="16"
+                                           Source="{ca:Asset MetroIcons/Beaker-01-WF.png}" />
+                                </Button>
+                                <Button Height="24" Width="24" MinHeight="0" MinWidth="0" Margin="3"
+                                              Command="{Binding RsdCommand}"
+                                              ToolTip="Add to RSD calculation"
+                                              >
+                                    <Image Width="16" Height="16"
+                                           Source="{ca:Asset MetroIcons/Diagram.png}" />
+                                </Button>
+                            </StackPanel>
+                        </Expander>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Expander>
+        <!--ScrollBar Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Stretch"></ScrollBar-->
+    </Grid>
+
+</UserControl>
+<!--cp:SimplePlotter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                              DataSource="{Binding Points}"></cp:SimplePlotter-->

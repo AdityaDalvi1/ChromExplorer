@@ -1,0 +1,236 @@
+<UserControl x:Class="ChromExplorer.Modules.Viewer.Views.ChromatorgramView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ca="clr-namespace:ChromExplorer.Assets;assembly=ChromExplorer.Assets"
+             xmlns:Views="clr-namespace:ChromExplorer.Modules.Viewer.Views" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="parentViewer">
+    <UserControl.Resources>
+
+        <Style x:Key="IncrementLineButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border 
+          x:Name="Border"
+          Margin="1" 
+          CornerRadius="2" 
+          Background="{x:Null}"
+          BorderBrush="{x:Null}"
+          BorderThickness="1">
+                            <Path 
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Fill="#404040"
+            Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#E0E0E0" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderBarThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border Height="8" Width="8"
+          CornerRadius="2"
+          BorderThickness="1" Background="#FF404040"  />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <SolidColorBrush x:Key="HorizontalSliderTrackNormalBackground" Color="#FF404040"/>
+        <SolidColorBrush x:Key="HorizontalSliderTrackNormalBorder"  />
+
+        <Style x:Key="SliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Rectangle Fill="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SpectrumSliderStyle" TargetType="{x:Type Slider}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Slider}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TickBar x:Name="TopTick" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Placement="Top" Height="4" Grid.Row="0"/>
+                                <TickBar x:Name="BottomTick" Visibility="Collapsed" Fill="{TemplateBinding Foreground}" Placement="Bottom" Height="4" Grid.Row="0"/>
+                                <Border x:Name="TrackBackground" 
+                                        Background="{StaticResource HorizontalSliderTrackNormalBackground}"
+                                        BorderBrush="{StaticResource HorizontalSliderTrackNormalBorder}"                                        
+                                        BorderThickness="1" CornerRadius="1"
+                                        Margin="5,0" VerticalAlignment="Center" Height="4.0" Grid.Row="1" >
+                                    <Canvas Margin="-6,-1">
+                                        <Rectangle Visibility="Hidden" x:Name="PART_SelectionRange" Height="4.0"
+                                            Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"
+                                            Stroke="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}"
+                                            StrokeThickness="1.0"/>
+                                    </Canvas>
+                                </Border>
+                                <Track x:Name="PART_Track" Grid.Row="1">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton 
+                                            Foreground="Black"
+                                            Style="{StaticResource SliderRepeatButtonStyle}"
+                                            Command="{x:Static Slider.DecreaseLarge}"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton 
+                                            Style="{StaticResource SliderRepeatButtonStyle}"
+                                            Foreground="Black"
+                                            Command="{x:Static Slider.IncreaseLarge}"/>
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb 
+                                            Style="{StaticResource SliderBarThumb}" 
+                                                    Margin="0,10,0,10"  
+                                                    Background="#C0C0C0"
+                                                    BorderBrush="#404040" Height="8" 
+                                                    HorizontalContentAlignment="Center" 
+                                                    VerticalContentAlignment="Center" />
+                                    </Track.Thumb>
+                                </Track>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+        <Style x:Key="CompoundComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="IsEnabled" Value="{Binding IsSelectable}"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="#9E9E9E"/>
+                    <Setter Property="FontStyle" Value="Italic" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Key="A"
+                    Command="{Binding DecrementSelectedCommand}"
+                    ></KeyBinding>
+    </UserControl.InputBindings>
+    <Grid Name="twoPlotGrid" Background="#99FFFFFF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,10,10,0" VerticalAlignment="Center"
+                    Visibility="{Binding ShowCompoundSelector, Converter={StaticResource BoolToVis}}">
+            <TextBlock Text="Data Channel:" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <ComboBox MinWidth="220" VerticalContentAlignment="Center"
+                      ItemsSource="{Binding CompoundOptions}"
+                      SelectedItem="{Binding SelectedCompoundOption}"
+                      ItemContainerStyle="{StaticResource CompoundComboBoxItemStyle}">
+            </ComboBox>
+
+            <!-- Picks a specific m/z peak detected in the CURRENT mass spectrum (SpectrumVM,
+                 not this view's own DataContext — hence the "SpectrumVM." prefix) and highlights
+                 it the same way a manual drag-select on the spectrum plot already does. -->
+            <TextBlock Text="Select Mass:" FontWeight="SemiBold" VerticalAlignment="Center" Margin="20,0,10,0"/>
+            <ComboBox MinWidth="100" VerticalContentAlignment="Center"
+                      ItemsSource="{Binding SpectrumVM.PeakMassOptions}"
+                      SelectedItem="{Binding SpectrumVM.SelectedMassOption, Mode=TwoWay}"
+                      ItemContainerStyle="{StaticResource CompoundComboBoxItemStyle}"
+                      ToolTip="Select a detected mass to highlight it on the spectrum">
+            </ComboBox>
+        </StackPanel>
+
+        <Views:ChromatogramPlotView Grid.Row="1" DataContext="{Binding ChromVM}" Margin="10" Focusable="True" x:Name="chromPlot">
+            <Views:ChromatogramPlotView.InputBindings>
+                <KeyBinding Key="Left"
+                    Command="{Binding ElementName=parentViewer, Path=DataContext.DecrementSelectedCommand}"
+                    ></KeyBinding>
+                <KeyBinding Key="Right"
+                    Command="{Binding ElementName=parentViewer, Path=DataContext.IncrementSelectedCommand}"
+                    ></KeyBinding>
+            </Views:ChromatogramPlotView.InputBindings>
+        </Views:ChromatogramPlotView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="55"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <RepeatButton Style="{StaticResource IncrementLineButton}" Content="M 4 0 L 4 8 L 0 4 Z" Margin="0,10,0,10" 
+                          VerticalAlignment="Center"
+                          HorizontalAlignment="Right"
+                          Command="{Binding DecrementSelectedCommand}">
+                <RepeatButton.LayoutTransform>
+                    <ScaleTransform 
+                        CenterX="0" CenterY="0"
+                            ScaleX="1.0"
+                            ScaleY="1.0"
+        />
+                </RepeatButton.LayoutTransform>
+            </RepeatButton>
+            <Slider x:Name="slider" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Style="{StaticResource SpectrumSliderStyle}" 
+                    Minimum="{Binding MinIndex}"
+                    Maximum="{Binding MaxIndex}"
+                    Value="{Binding Chromatogram.SelectedIndex}"  Margin="0,2" >
+                <Slider.InputBindings>
+                    <KeyBinding Key="Left"
+                    Command="{Binding DecrementSelectedCommand}"
+                    ></KeyBinding>
+                    <KeyBinding Key="Right"
+                    Command="{Binding IncrementSelectedCommand}"
+                    ></KeyBinding>
+                </Slider.InputBindings>
+            </Slider>
+            <RepeatButton Grid.Column="2" Style="{StaticResource IncrementLineButton}"  Content="M 0 0 L 4 4 L 0 8 Z" Margin="0,10,0,10" VerticalAlignment="Center"
+                          Command="{Binding IncrementSelectedCommand}">
+
+            </RepeatButton>
+        </Grid>
+        <Views:SpectrumPlotView x:Name="spectrumPlot" Grid.Row="3" DataContext="{Binding SpectrumVM}" Margin="10" ></Views:SpectrumPlotView>
+        <StackPanel Grid.Row="4" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10">
+            <Button Content="Apply Saved Method" Command="{Binding ApplySavedMethodCommand}" Width="140" Height="30" Margin="5"
+                    ToolTip="Load a .cmethod file (from Settings' Create Method) and apply it to this graph"/>
+            <Button Content="Open in NIST" Command="{Binding OpenInNistCommand}" Width="110" Height="30" Margin="5"
+                    Background="#2E7D32" Foreground="White" FontWeight="SemiBold" BorderThickness="0"/>
+            <Button Content="Generate Report" Command="{Binding GenerateReportCommand}" Width="120" Height="30" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

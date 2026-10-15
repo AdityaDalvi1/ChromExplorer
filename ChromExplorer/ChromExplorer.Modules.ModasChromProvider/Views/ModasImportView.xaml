@@ -1,0 +1,390 @@
+﻿<UserControl x:Class="ChromExplorer.Modules.ModasChromProvider.Views.ModasImportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Infrastructure="clr-namespace:ChromExplorer.Infrastructure;assembly=ChromExplorer.Infrastructure"
+             xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Interactivity.InteractionRequest;assembly=Microsoft.Practices.Prism.Interactivity"
+             xmlns:interactionRequest="clr-namespace:ChromExplorer.Infrastructure.InteractionRequest;assembly=ChromExplorer.Infrastructure"
+             xmlns:Model="clr-namespace:ChromExplorer.Modules.ModasChromProvider.Model"
+             xmlns:ModasReader="clr-namespace:ChromExplorer.ModasReader;assembly=ChromExplorer.ModasReader"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="timeUnits"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Infrastructure:TimeUnits"/>
+                </ObjectDataProvider.MethodParameters>
+
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="msnTypes"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Infrastructure:MsnTypes"/>
+                </ObjectDataProvider.MethodParameters>
+
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="chromFilters"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ModasReader:ChromFilters"/>
+                </ObjectDataProvider.MethodParameters>
+
+            </ObjectDataProvider>
+            <LinearGradientBrush x:Key="headerBarBG" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF284292"/>
+                <GradientStop Color="#FF2175B8" Offset="0.26499998569488525"/>
+            </LinearGradientBrush>
+            
+            <DataTemplate x:Key="emptyFilter">
+                <TextBlock HorizontalAlignment="Center" Margin="5" FontStyle="Italic">N/A</TextBlock>
+            </DataTemplate>
+
+            <DataTemplate x:Key="methodFilter">
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,5,5,5">Method</TextBlock>
+
+                    <ComboBox  Grid.Column="1" Margin="5,5,5,5" 
+                                  ItemsSource="{Binding Methods}"
+                                  SelectedItem="{Binding SelectedMethod}"
+                                  >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="parentFilter">
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,5,5,5">Parent Ion</TextBlock>
+
+                    <TextBox  Grid.Column="1" Margin="5,5,5,5" Text="{Binding ParentIonMass}"/>
+
+                    <TextBlock Grid.Row="1" Margin="5,5,5,5">Mass Accuracy</TextBlock>
+
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" Text="{Binding MassAccuracy}"/>
+
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="msnFilter">
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,5,5,5">Scan Type</TextBlock>
+
+                    <ComboBox  Grid.Column="1" Margin="5,5,5,5" 
+                                  ItemsSource="{Binding Source={StaticResource msnTypes}}"
+                                  SelectedItem="{Binding MsnType}"
+                                  >
+                        
+                    </ComboBox>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="injectionTimeFilter">
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,5,5,5">Injection Time (sec)</TextBlock>
+
+                    <ComboBox  Grid.Column="1" Margin="5,5,5,5" 
+                               ItemsSource="{Binding InjectionTimes}"
+                               SelectedItem="{Binding SelectedInjectionTime}"
+                    >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding StringFormat={}{0:0.####}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="massRangeFilter">
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="5,5,5,5">Mass Range</TextBlock>
+
+                    <ComboBox  Grid.Column="1" Margin="5,5,5,5"
+                               ItemsSource="{Binding MassRanges}"
+                               SelectedItem="{Binding SelectedMassRange}"
+                    >
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="1" Margin="5,5,5,5">Parent Mass</TextBlock>
+
+                    <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" IsReadOnly="True"
+                             Text="{Binding ParentMass, Mode=OneWay}"/>
+                </Grid>
+            </DataTemplate>
+
+
+            <Model:FilterTemplateSelector
+                Empty="{StaticResource emptyFilter}"
+                Method="{StaticResource methodFilter}"
+                ParentIon="{StaticResource parentFilter}"
+                MsN="{StaticResource msnFilter}"
+                InjectionTime="{StaticResource injectionTimeFilter}"
+                MassRange="{StaticResource massRangeFilter}"
+
+
+
+            x:Key="filterTemplateSelector" />
+
+        </ResourceDictionary>
+      
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0, 5, 5, 5">File</TextBlock>
+                    <TextBox Margin="5" Grid.Column="1" Text="{Binding Filename, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                    <Button Grid.Column="2" Margin="5" Command="{Binding BrowseCommand}">Browse</Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">Chromatogram</TextBlock>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5">Points</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="1">Time units</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="2">Rebuild TIC</TextBlock>
+                     
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Text="{Binding ChromPoints, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                        <CheckBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding RecalcTic}" HorizontalAlignment="Center"></CheckBox>
+                        
+                        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" 
+                                  ItemsSource="{Binding Source={StaticResource timeUnits}}"
+                                  SelectedItem="{Binding TimeUnits}"
+                                  >
+
+                        </ComboBox>
+
+                    </Grid>
+
+                    <Border Grid.Column="2"  Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">Spectrum</TextBlock>
+                    </Border>
+
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5">PPD</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="1">Mz (min)</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="2">Mz (max)</TextBlock>
+
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Text="{Binding PPD}" IsReadOnly="False"></TextBox>
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Grid.Row="1" Text="{Binding MzMin}" IsReadOnly="False"></TextBox>
+                        <TextBox Grid.Column="1" Margin="5,5,5,5" Grid.Row="2" Text="{Binding MzMax}" IsReadOnly="False"></TextBox>
+
+                    </Grid>
+
+                    <Border Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6"
+                            Grid.Row="2">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">Filter</TextBlock>
+                    </Border>
+                    
+                    <Grid Grid.Row="3" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5">Type</TextBlock>
+
+                        <ComboBox  Grid.Column="1" Margin="5,5,5,5" 
+                                  ItemsSource="{Binding Source={StaticResource chromFilters}}"
+                                  SelectedItem="{Binding SelectedFilter}"
+                                   IsEnabled="{Binding IsFileValid}"
+                                  >
+                        </ComboBox>
+                        <ContentPresenter Grid.Row="1" Grid.ColumnSpan="2" 
+                            Content="{Binding FilterSettings}" ContentTemplateSelector="{StaticResource filterTemplateSelector}"></ContentPresenter>
+
+                    </Grid>
+
+                    <Border Grid.Column="2" Grid.Row="2"  Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">Preprocessing</TextBlock>
+                    </Border>
+
+                    <Grid Grid.Row="3" Grid.Column="2" Grid.RowSpan="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="0">Remove Baseline</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="1" IsEnabled="{Binding ElementName=RmbCheckbox, Path=IsChecked}">Noise Filter Level</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="2" Grid.Column="0">Normalize by injection time</TextBlock>
+
+
+                        <CheckBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding RemoveBaseLine}" HorizontalAlignment="Center"
+                                  Name="RmbCheckbox"></CheckBox>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" Text="{Binding NoiseFilerLevel}" IsReadOnly="False"
+                                 IsEnabled="{Binding ElementName=RmbCheckbox, Path=IsChecked}"></TextBox>
+                        <CheckBox Name="NrmCheckbox" Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" HorizontalAlignment="Center"
+                                 IsChecked="{Binding NormalizeByIT}"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" IsReadOnly="false" Text="{Binding ReferenceIT}"
+                                 IsEnabled="{Binding ElementName=NrmCheckbox, Path=IsChecked}"/>
+                        
+                        
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+            <Button Margin="5" Command="{Binding LoadCommand}">Load</Button>
+        </StackPanel>
+        
+        <i:Interaction.Triggers>
+            <prism:InteractionRequestTrigger SourceObject="{Binding NotificationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:NotificationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Information.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+            <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:ConfirmationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Question.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+        </i:Interaction.Triggers>
+    </Grid>
+</UserControl>

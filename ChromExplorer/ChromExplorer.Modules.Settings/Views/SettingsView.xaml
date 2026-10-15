@@ -1,0 +1,64 @@
+<UserControl x:Class="ChromExplorer.Modules.Settings.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ca="clr-namespace:ChromExplorer.Assets;assembly=ChromExplorer.Assets" xmlns:Views="clr-namespace:ChromExplorer.Modules.Settings.Views"
+             xmlns:nistLibraryViews="clr-namespace:ChromExplorer.NistLibrary.Views;assembly=ChromExplorer.NistLibrary"
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Border Background="#99FFFFFF" Opacity="0.5" CornerRadius="12,12,12,12" VerticalAlignment="Stretch" Grid.RowSpan="3" Grid.ColumnSpan="3" />
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Border BorderBrush="Black" CornerRadius="12,12,12,12"  Background="#FFC2CCDB"></Border>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel HorizontalAlignment="Right">
+                    <Button Margin="3" MinWidth="18" MinHeight="18" Click="Button_Click">
+                        <Image Height="16" Width="16" Source="{ca:Asset Icons/Actions/collapse.png}"></Image>
+                    </Button>
+                </StackPanel>
+                <TabControl Grid.Row="1">
+                    <TabItem Header="Peak Picking">
+                        <Views:PeakPickingSettingsView DataContext="{Binding PPModel}"></Views:PeakPickingSettingsView>
+                    </TabItem>
+                    <TabItem Header="PostProcessing">
+                        <Views:PostProcessingView DataContext="{Binding ProcessingModel}"></Views:PostProcessingView>
+                    </TabItem>
+                    <TabItem Header="Peak Integration">
+                        <Views:PeakIntegrationView DataContext="{Binding IntegrationModel}"></Views:PeakIntegrationView>
+                    </TabItem>
+                    <TabItem Header="Nist Library" Visibility="{Binding NistLibraryVisibility}">
+                        <nistLibraryViews:NistLibrarySettingsView DataContext="{Binding NistLibrarySettings}"></nistLibraryViews:NistLibrarySettingsView>
+                    </TabItem>
+                    <TabItem Header="SNR">
+                        <Views:SNRSettingsView DataContext="{Binding SNRModel}"></Views:SNRSettingsView>
+                    </TabItem>
+
+                </TabControl>
+                <StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button Content="Create Method" Command="{Binding CreateMethodCommand}" MinWidth="120" Height="28" Margin="5"
+                            ToolTip="Save the parameters currently selected across all tabs to a .cmethod file"/>
+                </StackPanel>
+            </Grid>
+
+
+        </Grid>
+
+
+    </Grid>
+</UserControl>

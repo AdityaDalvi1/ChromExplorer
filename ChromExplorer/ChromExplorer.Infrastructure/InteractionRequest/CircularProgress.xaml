@@ -1,0 +1,14 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ChromExplorer_Infrastructure="clr-namespace:ChromExplorer.Infrastructure"
+             xmlns:interactionRequest="clr-namespace:ChromExplorer.Infrastructure.InteractionRequest"
+             x:Class="ChromExplorer.Infrastructure.InteractionRequest.CircularProgress" 
+             mc:Ignorable="d" 
+            >
+	<Grid>
+		<interactionRequest:ucWaitControl d:LayoutOverrides="HorizontalAlignment, VerticalAlignment"/>
+	</Grid>
+</UserControl>

@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="ChromExplorer.Modules.MascotExporter.Views.MascotSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:interactionRequest="clr-namespace:ChromExplorer.Infrastructure.InteractionRequest;assembly=ChromExplorer.Infrastructure"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Interactivity.InteractionRequest;assembly=Microsoft.Practices.Prism.Interactivity"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:model="clr-namespace:ChromExplorer.Infrastructure;assembly=ChromExplorer.Infrastructure"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <LinearGradientBrush x:Key="headerBarBG" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF284292"/>
+                <GradientStop Color="#FF2175B8" Offset="0.26499998569488525"/>
+            </LinearGradientBrush>
+
+            <ObjectDataProvider x:Key="massTypes"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="model:MassTypes"/>
+                </ObjectDataProvider.MethodParameters>
+
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0, 5, 5, 5">File</TextBlock>
+                    <TextBox Margin="5" Grid.Column="1" Text="{Binding Filename, Mode=OneWay}" IsReadOnly="True"></TextBox>
+                    <Button Grid.Column="2" Margin="5" Command="{Binding BrowseCommand}">Browse</Button>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">General</TextBlock>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="0">Mass type</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="1">Selected Spectra only</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="2">Save Zero Intensities</TextBlock>
+
+                        <CheckBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding Settings.SelectedSpectraOnly}" HorizontalAlignment="Center"></CheckBox>
+
+                        <ComboBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" 
+                                  ItemsSource="{Binding Source={StaticResource massTypes}}"
+                                  SelectedItem="{Binding Settings.MassType}"
+                                  >
+
+                        </ComboBox>
+                        <CheckBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding Settings.WriteZero}" HorizontalAlignment="Center"></CheckBox>
+
+                    </Grid>
+
+                    
+
+                    
+
+                    <Border Grid.Column="2" Grid.Row="0"  Background="{StaticResource headerBarBG}" BorderBrush="AntiqueWhite" BorderThickness="3" CornerRadius="6">
+                        <TextBlock Foreground="White" FontFamily="Tahoma" FontWeight="Bold" HorizontalAlignment="Center" Margin="5">Preprocessing</TextBlock>
+                    </Border>
+
+                    <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="0">Normalize</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="1" IsEnabled="{Binding ElementName=NormalizeCheckbox, Path=IsChecked}">Level (au)</TextBlock>
+                        <TextBlock Margin="5,5,5,5" Grid.Row="2">Shift to Zero</TextBlock>
+
+
+                        <CheckBox Grid.Row="0" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding Settings.Normalize}" HorizontalAlignment="Center"
+                                  Name="RmbCheckbox"></CheckBox>
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" Text="{Binding Settings.NormLevel}" IsReadOnly="False"
+                                 IsEnabled="{Binding ElementName=NormalizeCheckbox, Path=IsChecked}"></TextBox>
+                        <CheckBox Grid.Row="2" Grid.Column="1" Margin="5,5,5,5" IsChecked="{Binding Settings.ShiftToZero}" HorizontalAlignment="Center"
+                                  ></CheckBox>
+
+
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+            <Button Margin="5" Command="{Binding ExportCommand}">Export</Button>
+        </StackPanel>
+
+        <i:Interaction.Triggers>
+            <prism:InteractionRequestTrigger SourceObject="{Binding NotificationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:NotificationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Information.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+            <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationFromViewModelInteractionRequest}">
+                <interactionRequest:InteractionDialogAction>
+                    <interactionRequest:InteractionDialogAction.Dialog>
+                        <interactionRequest:ConfirmationLocalModalInteractionDialog />
+                    </interactionRequest:InteractionDialogAction.Dialog>
+                    <interactionRequest:InteractionDialogAction.ContentTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="6,0" Height="24" VerticalAlignment="Center" Source="/ChromExplorer.Infrastructure;component/Images/Question.png" />
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </interactionRequest:InteractionDialogAction.ContentTemplate>
+                </interactionRequest:InteractionDialogAction>
+            </prism:InteractionRequestTrigger>
+
+        </i:Interaction.Triggers>
+    </Grid>
+</UserControl>

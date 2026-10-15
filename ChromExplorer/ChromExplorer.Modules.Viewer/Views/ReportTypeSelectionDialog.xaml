@@ -1,0 +1,78 @@
+﻿<Window x:Class="ChromExplorer.Modules.Viewer.Views.ReportTypeSelectionDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Generate Report" Height="378" Width="420"
+        WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="Transparent" AllowsTransparency="True">
+
+    <Border Background="White" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity="0.25" Color="Black"/>
+        </Border.Effect>
+
+        <Grid Margin="30,22,30,25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Corner action: distinct from the two report-type choices below, so it doesn't
+                 read as a third equal option. Small outlined pill, top-right. -->
+            <Button Grid.Row="0" x:Name="btnAddToReport" Click="BtnAddToReport_Click"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Height="24" Padding="10,0" FontSize="10.5" FontWeight="SemiBold" Cursor="Hand"
+                    Background="Transparent" Foreground="#2E9E5B" BorderBrush="#2E9E5B" BorderThickness="1.2">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="12"/>
+                    </Style>
+                </Button.Resources>
+                <TextBlock x:Name="txtAddToReport" Text="+ Add to Report"/>
+            </Button>
+
+            <StackPanel Grid.Row="1" Margin="0,26,0,20">
+                <TextBlock Text="Generate Report" FontSize="20" FontWeight="Bold" Foreground="#2D3E50" HorizontalAlignment="Center"/>
+                <TextBlock Text="Select the type of report you want to generate" FontSize="12" Foreground="#8898AA" HorizontalAlignment="Center" Margin="0,5,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" VerticalAlignment="Center">
+                <Button x:Name="btnGeneral" Content="General Report" Click="BtnGeneral_Click"
+                        Height="48" FontSize="15" FontWeight="SemiBold" Cursor="Hand" Margin="0,0,0,12"
+                        Background="#2D3E50" Foreground="White" BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name="btnForensic" Content="Forensic Report" Click="BtnForensic_Click"
+                        Height="48" FontSize="15" FontWeight="SemiBold" Cursor="Hand" Margin="0,0,0,12"
+                        Background="#5A6B7C" Foreground="White" BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name="btnMethod" Content="Method Report" Click="BtnMethod_Click"
+                        Height="48" FontSize="15" FontWeight="SemiBold" Cursor="Hand"
+                        Background="#6B4F9E" Foreground="White" BorderThickness="0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+
+            <Button Grid.Row="3" x:Name="btnCancel" Content="Cancel" Click="BtnCancel_Click"
+                    Height="34" FontSize="13" Cursor="Hand" Margin="0,20,0,0"
+                    Background="Transparent" Foreground="#8898AA" BorderThickness="0"/>
+        </Grid>
+    </Border>
+</Window>

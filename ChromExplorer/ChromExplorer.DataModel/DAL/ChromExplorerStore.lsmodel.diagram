@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<minimalLanguageDiagram dslVersion="1.1.0.0" absoluteBounds="0, 0, 11, 8.5" name="ChromExplorerStore">
+  <modelMoniker name="/ChromExplorerStore" />
+  <nestedChildShapes>
+    <entityShape Id="bfc0514e-6b22-48fd-a318-cc6d1cb05577" absoluteBounds="3.875, 1.5, 1.5, 1.2792057291666668">
+      <entityMoniker name="/ChromExplorerStore/SpectrumData" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7e6a3f41-1fac-48f3-b922-c589a003689c" absoluteBounds="3.89, 1.9100000000000001, 1.4700000000000002, 0.76920572916666663" name="Properties" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </entityShape>
+  </nestedChildShapes>
+</minimalLanguageDiagram>

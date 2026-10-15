@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="ChromExplorer.PeakPicking.ModasPeakPicker.Views.ModasPPConfigView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="5">Min Peak Half Width (pt)</TextBlock>
+        <TextBlock Margin="5" Grid.Row="1">Peak Half Width (pt)</TextBlock>
+
+        <TextBox Grid.Column="1"  Margin="5" Text="{Binding MinPeakHalfSize}"></TextBox>
+        <TextBox Grid.Row="1" Grid.Column="1"  Margin="5" Text="{Binding PeakHalfSize}"></TextBox>
+    </Grid>
+</UserControl>

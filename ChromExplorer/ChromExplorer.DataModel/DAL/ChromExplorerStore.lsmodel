@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<model xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.1.0.0" name="ChromExplorerStore" targetNamespace="ChromExplorer.DataModel.DAL" databaseProvider="Sqlite3" connectionString="Data Source=reference.ces;Version=3;" pluralizedInDatabase="false" mediumTrustCompatibility="false" xmlns="http://namespaces.mindscape.co.nz/lightspeed">
+  <entities>
+    <entity name="SpectrumData" identityType="Int32" cacheExpiry="0">
+      <entityProperties>
+        <entityProperty name="SpectrumIndex" dataType="Int32" />
+        <entityProperty name="PointIndex" dataType="Int32" />
+        <entityProperty name="Mz" dataType="Double" />
+        <entityProperty name="Intensity" dataType="Double" />
+      </entityProperties>
+    </entity>
+  </entities>
+</model>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestSettings name="Local" id="34b76b20-34ae-42c3-bd21-2a8ac893cc13" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Description>These are default test settings for a local test run.</Description>
+  <Deployment>
+    <DeploymentItem filename="ChromExplorer.ModasReader.Tests\method_filter.db3" />
+    <DeploymentItem filename="ChromExplorer.ModasReader.Tests\TestReader.db3" />
+    <DeploymentItem filename="ChromExplorer.ModasReader.Tests\WrongTables.db3" />
+    <DeploymentItem filename="ChromExplorer.ModasReader.Tests\explorer_test.db3" />
+  </Deployment>
+  <Execution>
+    <TestTypeSpecific>
+      <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
+        <AssemblyResolution>
+          <TestDirectory useLoadContext="true" />
+        </AssemblyResolution>
+      </UnitTestRunConfig>
+    </TestTypeSpecific>
+    <AgentRule name="Execution Agents">
+    </AgentRule>
+  </Execution>
+</TestSettings>

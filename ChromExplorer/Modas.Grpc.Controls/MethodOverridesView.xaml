@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Modas.Grpc.Controls.MethodOverridesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Modas.Grpc.Controls"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:models="clr-namespace:Modas.Grpc.Models;assembly=Modas.Grpc.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance local:MethodOverridesViewViewModel}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <ObjectDataProvider x:Key="IonPolarityEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="models:MTIonPolarity"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="MeasurementTypeEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="models:MTMeasurementTypes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid Margin="0, 0, 0, 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60px"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Select / Deselect All" FontWeight="Bold"></TextBlock>
+            <CheckBox Grid.Column="2" Margin="3" IsChecked="{Binding SelectAllOverrides}" HorizontalAlignment="Center"></CheckBox>
+        </Grid>
+    <Grid>
+         <Grid.RowDefinitions>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+             <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Visibility="{Binding Overrides.IonPolarity.IsVisible,
+            Converter={StaticResource BoolToVis}}">
+            <Grid Margin="0, 0, 0, 5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="60px"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Overrides.IonPolarity.Name}"></TextBlock>
+                <ComboBox
+                    Grid.Row="0" Grid.Column="1" Margin="2,5,5,3" 
+                    ItemsSource="{Binding Source={StaticResource IonPolarityEnum}}"
+                    SelectedItem="{Binding Overrides.IonPolarity.Value}"></ComboBox>
+                <CheckBox Grid.Row="0" Grid.Column="2"  Margin="3" IsChecked="{Binding Overrides.IonPolarity.Override}" HorizontalAlignment="Center" ></CheckBox>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical" Visibility="{Binding Overrides.MeasurementType.IsVisible, 
+    Converter={StaticResource BoolToVis}}">
+            <Grid Margin="0, 0, 0, 5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="60px"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Overrides.MeasurementType.Name}"></TextBlock>
+                <ComboBox
+                    Grid.Row="0" Grid.Column="1" Margin="2,5,5,3" 
+                    ItemsSource="{Binding Source={StaticResource MeasurementTypeEnum}}"
+                    SelectedItem="{Binding Overrides.MeasurementType.Value}"></ComboBox>
+                <CheckBox Grid.Row="0" Grid.Column="2"  Margin="3" IsChecked="{Binding Overrides.MeasurementType.Override}" HorizontalAlignment="Center" ></CheckBox>
+            </Grid>
+        </StackPanel>
+        <local:OverrideValueView Grid.Row="2" DataContext="{Binding Overrides.ParentIonMz}"></local:OverrideValueView>
+        <local:OverrideValueView Grid.Row="3" DataContext="{Binding Overrides.FragmentationAmplitude}"></local:OverrideValueView>
+        <local:OverrideValueView Grid.Row="4" DataContext="{Binding Overrides.SecondaryParentIonMz}"></local:OverrideValueView>
+        <local:OverrideValueView Grid.Row="5" DataContext="{Binding Overrides.SecondaryFragmentationAmplitude}"></local:OverrideValueView>
+
+        <local:OverrideValueView Grid.Row="6" DataContext="{Binding Overrides.InjectionTimeMs}"></local:OverrideValueView>
+        <local:OverrideValueView Grid.Row="7" DataContext="{Binding Overrides.MFrom}"></local:OverrideValueView>
+        <local:OverrideValueView Grid.Row="8" DataContext="{Binding Overrides.MTo}"></local:OverrideValueView>
+        <local:OverrideValueView Grid.Row="9" DataContext="{Binding Overrides.AgcTarget}"></local:OverrideValueView>
+        <local:OverrideValueView Grid.Row="10" DataContext="{Binding Overrides.MicroscanCount}"></local:OverrideValueView>
+
+        <Button Grid.Row="11" Margin="3" Command="{Binding ApplyCommand}" Visibility="{Binding IsApplyVisible, Converter={StaticResource BoolToVis}}">Apply</Button>
+
+    </Grid>
+    </StackPanel>
+</UserControl>

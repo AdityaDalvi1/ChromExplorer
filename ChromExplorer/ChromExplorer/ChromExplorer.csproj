@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6F6E6C90-2A6E-4840-8770-78ECD5A24DDF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChromExplorer</RootNamespace>
+    <AssemblyName>ChromExplorer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>C:\Users\knov\Development\Publish\ChromExplorer_offline\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>ChromExplorer</ProductName>
+    <PublisherName>SESI</PublisherName>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.3.3.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsLocation>Relative</BootstrapperComponentsLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>chromexplorer.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>65E181ECCED140EAEAC6308754ED608B0B61B2B7</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="QlmLicenseLib">
+      <HintPath>..\..\qlm\.net 4.0\QlmLicenseLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="CallbackLogger.cs" />
+    <Compile Include="ChromExplorerBootstraper.cs" />
+    <Compile Include="Controls\RoundedBox.xaml.cs">
+      <DependentUpon>RoundedBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Log4NetLogger.cs" />
+    <Compile Include="ModuleTracker.cs" />
+    <Compile Include="Services\UserSettingsProvider.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CEVersionInfo.cs" />
+    <Compile Include="ViewModels\HomeScreenViewViewModel.cs" />
+    <Compile Include="Views\HomeScreenView.xaml.cs">
+      <DependentUpon>HomeScreenView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Controls\RoundedBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\WindowRegionResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HomeScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="chromexplorer.snk" />
+    <None Include="Properties\app.manifest" />
+    <AppDesigner Include="Properties\" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChromExplorer.Assets\ChromExplorer.Assets.csproj">
+      <Project>{599A347F-0F80-43BE-B357-8BE9A19B84DA}</Project>
+      <Name>ChromExplorer.Assets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Calibrations\ChromExplorer.Calibrations.csproj">
+      <Project>{54F1B6E7-C979-4B4D-A10B-3BAF9C012CA0}</Project>
+      <Name>ChromExplorer.Calibrations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Controls\ChromExplorer.Controls.csproj">
+      <Project>{dda232c0-fa8d-4a67-b112-4a08b2927dce}</Project>
+      <Name>ChromExplorer.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.DataModel.Interfaces\ChromExplorer.DataModel.Interfaces.csproj">
+      <Project>{6F16240B-DEF1-4524-8379-150D46596C6C}</Project>
+      <Name>ChromExplorer.DataModel.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.DataModel\ChromExplorer.DataModel.csproj">
+      <Project>{80B59C0F-5657-420C-8D83-B18A7E814C88}</Project>
+      <Name>ChromExplorer.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Infrastructure\ChromExplorer.Infrastructure.csproj">
+      <Project>{A6FF9E15-A29C-4F45-992E-A34D595F43B0}</Project>
+      <Name>ChromExplorer.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Auth\ChromExplorer.Modules.Auth.csproj">
+      <Project>{86964c14-10ab-46ac-a503-d401e9e3ccb2}</Project>
+      <Name>ChromExplorer.Modules.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.DataProvider\ChromExplorer.Modules.DataProvider.csproj">
+      <Project>{308B53E8-BAAF-4048-B1F7-B4750D84C5A6}</Project>
+      <Name>ChromExplorer.Modules.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Help\ChromExplorer.Modules.Help.csproj">
+      <Project>{F3314157-82E5-48BD-98C0-5E0939D2F706}</Project>
+      <Name>ChromExplorer.Modules.Help</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Lc\ChromExplorer.Modules.Lc.csproj">
+      <Project>{25a69956-1d28-4b09-ade8-95c4dba5c9b4}</Project>
+      <Name>ChromExplorer.Modules.Lc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.MappedFileProvider\ChromExplorer.Modules.MappedFileProvider.csproj">
+      <Project>{7EBA285D-18C7-49EA-8EBC-4BFEE2C12009}</Project>
+      <Name>ChromExplorer.Modules.MappedFileProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.MascotExporter\ChromExplorer.Modules.MascotExporter.csproj">
+      <Project>{c2d61bd5-1b53-4d5d-9eea-99c230ddc13b}</Project>
+      <Name>ChromExplorer.Modules.MascotExporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.ModasChromProvider\ChromExplorer.Modules.ModasChromProvider.csproj">
+      <Project>{CB767930-B7AF-49EB-B3C4-A8A857FF804B}</Project>
+      <Name>ChromExplorer.Modules.ModasChromProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.ModasGrpc\ChromExplorer.Modules.ModasGrpc.csproj">
+      <Project>{e91d44ac-6f7b-4e18-9c02-aabb33445566}</Project>
+      <Name>ChromExplorer.Modules.ModasGrpc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.MS\ChromExplorer.Modules.MS.csproj">
+      <Project>{f9cb680e-fe52-4880-8aed-e2fcb6c2ff2d}</Project>
+      <Name>ChromExplorer.Modules.MS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.MzMLExporter\ChromExplorer.Modules.MzMLExporter.csproj">
+      <Project>{2d137dd1-d904-4ed4-8715-a50ad1a774fc}</Project>
+      <Name>ChromExplorer.Modules.MzMLExporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Quan\ChromExplorer.Modules.Quan.csproj">
+      <Project>{3fef7d5f-cc5b-4760-b902-f84aa78c6f8f}</Project>
+      <Name>ChromExplorer.Modules.Quan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Settings\ChromExplorer.Modules.Settings.csproj">
+      <Project>{E178C525-DDFE-49F2-9487-8DAC33E700F1}</Project>
+      <Name>ChromExplorer.Modules.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Status\ChromExplorer.Modules.Status.csproj">
+      <Project>{8D022BE0-3B8A-4168-A561-75F2D4C57267}</Project>
+      <Name>ChromExplorer.Modules.Status</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Syringe\ChromExplorer.Modules.Syringe.csproj">
+      <Project>{7efdb00b-4438-45cf-b3f5-d0dbf357501e}</Project>
+      <Name>ChromExplorer.Modules.Syringe</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.TestChromProvider\ChromExplorer.Modules.TestChromProvider.csproj">
+      <Project>{A9BD85F9-8194-436B-94FA-643860B95A56}</Project>
+      <Name>ChromExplorer.Modules.TestChromProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.Viewer\ChromExplorer.Modules.Viewer.csproj">
+      <Project>{AFA9DFFA-0722-4C2C-BF73-AF82AA1AD624}</Project>
+      <Name>ChromExplorer.Modules.Viewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.NistLibrary\ChromExplorer.NistLibrary.csproj">
+      <Project>{17B092AE-1381-4A07-BD5F-800D53FE515E}</Project>
+      <Name>ChromExplorer.NistLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PeakPicking.ModasPeakPicker\ChromExplorer.PeakPicking.ModasPeakPicker.csproj">
+      <Project>{FBA16B82-FE2C-48BD-8D46-9B14504B75CA}</Project>
+      <Name>ChromExplorer.PeakPicking.ModasPeakPicker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PealPicking.EmptyPeakPicker\ChromExplorer.PealPicking.EmptyPeakPicker.csproj">
+      <Project>{D3BABE1E-0828-4ED8-BE0F-6756ABF06A6F}</Project>
+      <Name>ChromExplorer.PealPicking.EmptyPeakPicker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Plotter\ChromExplorer.Plotter.csproj">
+      <Project>{08045621-F651-4D84-8656-6A05085FCF9C}</Project>
+      <Name>ChromExplorer.Plotter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PostProcessing.GaussianFilter\ChromExplorer.PostProcessing.GaussianFilter.csproj">
+      <Project>{a1b2c3d4-e5f6-4321-9876-098765432109}</Project>
+      <Name>ChromExplorer.PostProcessing.GaussianFilter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PostProcessing.MedianFilter\ChromExplorer.PostProcessing.MedianFilter.csproj">
+      <Project>{4f78ceee-3e00-4823-bef8-8ba9d9198dcf}</Project>
+      <Name>ChromExplorer.PostProcessing.MedianFilter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PostProcessing.Normalize\ChromExplorer.PostProcessing.Normalize.csproj">
+      <Project>{4582214C-1E00-49B8-B1E9-0AB3B5703BB2}</Project>
+      <Name>ChromExplorer.PostProcessing.Normalize</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PostProcessing.RemoveSpikes\ChromExplorer.PostProcessing.RemoveSpikes.csproj">
+      <Project>{8a4e5e0d-68ef-4f85-98e9-b6048f2ca6ac}</Project>
+      <Name>ChromExplorer.PostProcessing.RemoveSpikes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.PostProcessing.SavitzkyGolaySmoother\ChromExplorer.PostProcessing.SavitzkyGolaySmoother.csproj">
+      <Project>{85650685-6CF5-4205-A578-4CD32471A4AF}</Project>
+      <Name>ChromExplorer.PostProcessing.SavitzkyGolaySmoother</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Services.PickPeakerService\ChromExplorer.Services.PickPeakerService.csproj">
+      <Project>{AED906AE-26C8-4FAB-A36D-FD56C6166E4E}</Project>
+      <Name>ChromExplorer.Services.PickPeakerService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Services.PostProcessingService\ChromExplorer.Services.PostProcessingService.csproj">
+      <Project>{62C61F10-A28E-4D71-AF0F-8BFFF801F482}</Project>
+      <Name>ChromExplorer.Services.PostProcessingService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modas.Grpc.Client\Modas.Grpc.Client.csproj">
+      <Project>{a0d3c91f-ffeb-4af3-9b23-a06c218956a6}</Project>
+      <Name>Modas.Grpc.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleTracking\ModuleTracking.csproj">
+      <Project>{2B1CE424-55C8-4D5C-A890-B9BB2958F143}</Project>
+      <Name>ModuleTracking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Serial.Utils\Serial.Utils.csproj">
+      <Project>{3f9184fa-c3b7-4444-901d-2f27047f5066}</Project>
+      <Name>Serial.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\shadow_b.png" />
+    <Resource Include="Resources\shadow_bl.png" />
+    <Resource Include="Resources\shadow_br.png" />
+    <Resource Include="Resources\shadow_l.png" />
+    <Resource Include="Resources\shadow_r.png" />
+    <Resource Include="Resources\shadow_t.png" />
+    <Resource Include="Resources\shadow_tl.png" />
+    <Resource Include="Resources\shadow_tr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\trap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IonTrap0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\dna_bg_r.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 3.5 SP2</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="MathNet.Iridium">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ChromExplorer 2.0.lw.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\MTE30.png" />
+    <Resource Include="Resources\MTE50_laptop.png" />
+    <Resource Include="Resources\sesi_transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommonServiceLocator">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Expression.Blend.Sdk.WPF">
+      <Version>1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Extended.Wpf.Toolkit">
+      <Version>3.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="log4net">
+      <Version>3.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="MathNet.Numerics">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies">
+      <Version>1.0.3</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="OxyPlot.Wpf">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.MEFExtensions">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="QRCoder">
+      <Version>1.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite.Core">
+      <Version>1.0.119</Version>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple">
+      <Version>4.6.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent></PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

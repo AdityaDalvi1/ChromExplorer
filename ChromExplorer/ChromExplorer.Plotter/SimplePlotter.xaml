@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="ChromExplorer.Plotter.SimplePlotter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:ca="clr-namespace:ChromExplorer.Assets;assembly=ChromExplorer.Assets"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Plotter="clr-namespace:ChromExplorer.Plotter" mc:Ignorable="d" 
+             d:DesignHeight="299" d:DesignWidth="300">
+    <Grid>
+    <Grid  Name="top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="1" Name="selection" Background="Transparent">
+
+            <!--Grid.ContextMenu>
+                <ContextMenu Name="plotter_menu">
+                    <MenuItem Header="Fit to View" Click="RescaleMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Copy Screenshot" Click="CopyItem_Click"></MenuItem>
+                    <MenuItem Header="Enable AutoScale" IsCheckable="true" IsChecked="False" Name="autoScaleMenuItem" Checked="autoScaleMenuItem_Checked" Unchecked="autoScaleMenuItem_Checked"></MenuItem>
+                </ContextMenu>
+            </Grid.ContextMenu-->
+            <Plotter:XYPlotter x:Name="plot_canvas" BorderBrush="Black" BorderThickness="1" ></Plotter:XYPlotter>
+            <Canvas Name="marker_canvas"></Canvas>
+
+        </Grid>
+        
+
+        <Plotter:HorizontalAxisControl x:Name="xaxis_control" Grid.Row="2" Grid.Column="1"></Plotter:HorizontalAxisControl>
+        <Plotter:VerticalAxisControl x:Name="yaxis_control" Grid.Row="1"></Plotter:VerticalAxisControl>
+    </Grid>
+        <Grid >
+            <Border VerticalAlignment="Top" HorizontalAlignment="Right" Margin="3" CornerRadius="4" BorderBrush="LightBlue"
+                        BorderThickness="2">
+                <Expander Background="LightBlue" IsExpanded="True">
+                    <StackPanel Orientation="Horizontal" Background="LightBlue">
+                        <Button Height="24" Width="24" MinHeight="0" MinWidth="0" Margin="3" Click="RescaleMenuItem_Click"
+                                ToolTip="Rescale">
+                            <Image Width="16" Height="16" Source="{ca:Asset MetroIcons/Small/Scale-To-Fit.png}"></Image>
+                        </Button>
+                        <Button Height="24" Width="24" MinHeight="0" MinWidth="0" Margin="3" Click="CopyItem_Click"
+                                ToolTip="Copy to clipboard">
+                            <Image Width="16" Height="16" Source="{ca:Asset MetroIcons/Small/Copy.png}"></Image>
+                        </Button>
+                        <ToggleButton Name="autoScaleButton" Height="24" Width="24" MinHeight="0" MinWidth="0" Margin="3" Click="autoScaleMenuItem_Checked"
+                                      ToolTip="Autoscale Y axis" Style="{DynamicResource ToolbarToggleButtonStyle}">
+                            <Image Width="16" Height="16" Source="{ca:Asset MetroIcons/Small/Auto-Size-Columns.png}"></Image>
+                        </ToggleButton>
+                    </StackPanel>
+                </Expander>
+            </Border>
+        </Grid>
+</Grid>
+
+
+
+</UserControl>

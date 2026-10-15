@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ChromExplorer.Modules.Auth.Views.AuditorReportButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChromExplorer.Modules.Auth.Views"
+             xmlns:assets="clr-namespace:ChromExplorer.Assets;assembly=ChromExplorer.Assets"
+         mc:Ignorable="d"
+         d:DesignHeight="60"
+         d:DesignWidth="60">
+
+    <Button Margin="2" x:Name="OpenAuditReport" ToolTip="Audit Report" Click="BtnClick">
+        <!--<Image Width="42" Height="42" Source="/ChromExplorer.Assets;component/MetroIcons/report_icon_32.png" />-->
+        <!--<Image Source="/ChromExplorer.Assets;component/MetroIcons/Logout_btn.png" />-->
+        <!--<Image Source="/ChromExplorer.Assets;component/MetroIcons/report_icon_32.png" />-->
+        <Image Source="/ChromExplorer.Assets;component/MetroIcons/Microsoft-Logo--Streamline-Ultimate.png" />
+
+
+
+        <!--<Image Width="32" Height="32" Source="{assets:Asset MetroIcons/logout_icon_32.png}"></Image>-->
+    </Button>
+</UserControl>

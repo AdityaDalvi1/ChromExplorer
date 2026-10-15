@@ -1,0 +1,24 @@
+ChromExplorer 1.4.1
+
+1.	New build system has been introduced
+2.	All dependencies have been converted into the NuGet packages
+3.	User can copy current peak list into the clipboard in the Wiley 
+peak list format
+
+ChromExplorer 1.4.0
+
+1.	This version allow user to specify orientation and placement of 
+peak labels
+
+ChromExplorer 1.3.12
+
+1.	Bug with zero m/z in the exported peak list has been fixed
+
+ChromExplorer 1.3.11
+
+1.	Spike removal post-processing operation has been added
+
+ChromExplorer 1.3.10
+
+1.	Installer has been introduced
+2.	MODAS chromatogram import settings are persistent now

@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ChromExplorer.NistLibrary" GeneratedClassName="NistLibrarySettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FirstLocatorFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\NIST17\MSSEARCH\AUTOIMP.MSD</Value>
+    </Setting>
+    <Setting Name="SecondLocatorFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\NIST17\MTSEARCH\FILESPEC.FIL</Value>
+    </Setting>
+    <Setting Name="WorkingDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\NIST17\MTSEARCH\DATA</Value>
+    </Setting>
+    <Setting Name="NistExecutable" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\NIST17\MSSEARCH\nistms.exe</Value>
+    </Setting>
+    <Setting Name="Setting" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

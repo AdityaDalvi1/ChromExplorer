@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{86964C14-10AB-46AC-A503-D401E9E3CCB2}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>ChromExplorer.Modules.Auth</RootNamespace>
+    <AssemblyName>ChromExplorer.Modules.Auth</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AuthModule.cs" />
+    <Compile Include="models\AssignRoleRightsDO.cs" />
+    <Compile Include="models\User.cs" />
+    <Compile Include="models\SavedFileRecord.cs" />
+    <Compile Include="services\AssignRoleRightsData.cs" />
+    <Compile Include="services\AuditPdfExporter.cs" />
+    <Compile Include="services\AuthService.cs" />
+    <Compile Include="services\CryptoHelper.cs" />
+    <Compile Include="ViewModels\AssignedRightsViewModel.cs" />
+    <Compile Include="ViewModels\AssignedRoleViewModel.cs" />
+    <Compile Include="ViewModels\AuthViewViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
+    <Compile Include="ViewModels\ReviewSavedFilesViewModel.cs" />
+    <Compile Include="ViewModels\UserDetailsViewModel.cs" />
+    <Compile Include="Views\AssignRights.xaml.cs">
+      <DependentUpon>AssignRights.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AssignRole.xaml.cs">
+      <DependentUpon>AssignRole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AuditorReport.xaml.cs">
+      <DependentUpon>AuditorReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AuditorReportButton.xaml.cs">
+      <DependentUpon>AuditorReportButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AuthNavigationItemView.xaml.cs">
+      <DependentUpon>AuthNavigationItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AuthView.xaml.cs">
+      <DependentUpon>AuthView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogoutButton.xaml.cs">
+      <DependentUpon>LogoutButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReviewSavedFiles.xaml.cs">
+      <DependentUpon>ReviewSavedFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReviewSavedFilesNavigationItemView.xaml.cs">
+      <DependentUpon>ReviewSavedFilesNavigationItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserDetails.xaml.cs">
+      <DependentUpon>UserDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserRegistrationToolbutton.xaml.cs">
+      <DependentUpon>UserRegistrationToolbutton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserRegistrationView.xaml.cs">
+      <DependentUpon>UserRegistrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewAssignRights.xaml.cs">
+      <DependentUpon>ViewAssignRights.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewAssignRole.xaml.cs">
+      <DependentUpon>ViewAssignRole.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite.Core">
+      <Version>10.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.MEFExtensions">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="PdfSharp">
+      <Version>1.50.5147</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2">
+      <Version>1.0.4191.47</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChromExplorer.Assets\ChromExplorer.Assets.csproj">
+      <Project>{599a347f-0f80-43be-b357-8be9a19b84da}</Project>
+      <Name>ChromExplorer.Assets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Infrastructure\ChromExplorer.Infrastructure.csproj">
+      <Project>{a6ff9e15-a29c-4f45-992e-a34d595f43b0}</Project>
+      <Name>ChromExplorer.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChromExplorer.Modules.ModasChromProvider\ChromExplorer.Modules.ModasChromProvider.csproj">
+      <Project>{cb767930-b7af-49eb-b3c4-a8a857ff804b}</Project>
+      <Name>ChromExplorer.Modules.ModasChromProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleTracking\ModuleTracking.csproj">
+      <Project>{2b1ce424-55c8-4d5c-a890-b9bb2958f143}</Project>
+      <Name>ModuleTracking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Views\AssignRights.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AssignRole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AuditorReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AuditorReportButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AuthNavigationItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AuthView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogoutButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReviewSavedFiles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReviewSavedFilesNavigationItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserRegistrationToolbutton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserRegistrationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewAssignRights.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewAssignRole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
