@@ -476,6 +476,12 @@ namespace ChromExplorer.Modules.Viewer.ViewModels
             if (e.PropertyName != "CurrentSpectrum" || Plotter == null)
                 return;
 
+            // Same file, same scan(s), just re-processed (post-processing / "Apply Saved Method"):
+            // the plotter already keeps its X range when its data is swapped in place, so skipping
+            // the reset here is what keeps the user's zoomed-in mass view.
+            if (_chrom != null && _chrom.IsRebuildingSpectrumInPlace)
+                return;
+
             if (Plotter.CheckAccess())
                 Plotter.Restore();
             else

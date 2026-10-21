@@ -373,6 +373,18 @@
                             <Separator Width="1" Height="24" Margin="10,0" Background="#DDD" />
                             <Button Background="#C8E6C9" Command="{Binding RunSequenceCommand}">Run Sequence</Button>
                             <Button Background="#FFCDD2" Command="{Binding StopSequenceCommand}" ToolTip="Stop the sequence after the current sample finishes — asks for a reason">Abort</Button>
+                            <Separator Width="1" Height="24" Margin="10,0" Background="#DDD" />
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                        IsEnabled="{Binding IsSequenceRunning, Converter={StaticResource InverseBooleanConverter}}"
+                                        ToolTip="Wait time between samples: after one sample finishes, the next one starts only after this delay. One value for the whole sequence; 0 = no delay.">
+                                <TextBlock Text="Delay between samples:" FontWeight="SemiBold" VerticalAlignment="Center" Margin="3,0" />
+                                <TextBox Width="50" Height="26" VerticalContentAlignment="Center" Margin="3,0"
+                                         Text="{Binding SequenceDelayValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                                <ComboBox Width="80" Height="26" VerticalContentAlignment="Center" Margin="3,0"
+                                          ItemsSource="{Binding SequenceDelayUnits}" SelectedItem="{Binding SequenceDelayUnit}" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding SequenceDelayStatusText}" Foreground="DarkOrange" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Margin="10,0,0,0" />
                         </StackPanel>
                     </Border>
 

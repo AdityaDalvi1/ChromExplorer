@@ -536,6 +536,82 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
             }
         }
 
+        // One delay for the whole sequence (not per sample): after a sample finishes, the sequence
+        // waits this long before starting the next one. 0 = no delay.
+        public static readonly string[] SequenceDelayUnitOptions = { "Seconds", "Minutes" };
+
+        private double _sequenceDelayValue;
+        private string _sequenceDelayUnit = "Seconds";
+        private string _sequenceDelayStatusText = "";
+
+        public string[] SequenceDelayUnits => SequenceDelayUnitOptions;
+
+        public double SequenceDelayValue
+        {
+            get { return _sequenceDelayValue; }
+            set { SetField(ref _sequenceDelayValue, value < 0 ? 0 : value, "SequenceDelayValue"); }
+        }
+
+        public string SequenceDelayUnit
+        {
+            get { return _sequenceDelayUnit; }
+            set { SetField(ref _sequenceDelayUnit, value, "SequenceDelayUnit"); }
+        }
+
+        // Shown next to the delay field while the sequence is waiting between two samples.
+        public string SequenceDelayStatusText
+        {
+            get { return _sequenceDelayStatusText; }
+            private set { SetField(ref _sequenceDelayStatusText, value, "SequenceDelayStatusText"); }
+        }
+
+        private TimeSpan GetSequenceDelay()
+        {
+            double seconds = string.Equals(_sequenceDelayUnit, "Minutes", StringComparison.OrdinalIgnoreCase)
+                ? _sequenceDelayValue * 60.0
+                : _sequenceDelayValue;
+            return seconds > 0 ? TimeSpan.FromSeconds(seconds) : TimeSpan.Zero;
+        }
+
+        // Waits out the sequence delay before the next sample starts, ticking once a second so
+        // Abort (_stopSequenceRequested) takes effect straight away instead of after the full wait.
+        // Returns false if the sequence was stopped during the wait.
+        private async Task<bool> WaitSequenceDelayAsync(SequenceItem nextItem)
+        {
+            TimeSpan delay = GetSequenceDelay();
+            if (delay <= TimeSpan.Zero)
+                return true;
+
+            try
+            {
+                InsertLog("Sequence Delay", $"Waiting {delay.TotalSeconds:0.#} second(s) before starting next sample | Next sample: {nextItem.SampleName}", "");
+            }
+            catch (Exception exception)
+            {
+                Log.Logger.Error(exception, "Failed to write Sequence Delay audit log");
+            }
+
+            DateTime end = DateTime.UtcNow + delay;
+            try
+            {
+                while (!_stopSequenceRequested)
+                {
+                    TimeSpan remaining = end - DateTime.UtcNow;
+                    if (remaining <= TimeSpan.Zero)
+                        break;
+
+                    SequenceDelayStatusText = $"Next sample '{nextItem.SampleName}' starts in {Math.Ceiling(remaining.TotalSeconds):0} s";
+                    await Task.Delay(remaining < TimeSpan.FromSeconds(1) ? remaining : TimeSpan.FromSeconds(1));
+                }
+            }
+            finally
+            {
+                SequenceDelayStatusText = "";
+            }
+
+            return !_stopSequenceRequested;
+        }
+
         public int ScanCount
         {
             get
@@ -1763,6 +1839,7 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
             {
                 Log.Logger.Error(exception, "Failed to write Run Sequence Started audit log");
             }
+            bool hasRunSampleInThisSequence = false;
             try
             {
                 foreach (SequenceItem item in _sequenceItems)
@@ -1791,6 +1868,13 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
                     {
                         runMethod.DataFolder = item.DataFolder;
                     }
+                    // Wait the (single, sequence-wide) delay after the previous sample finished.
+                    if (hasRunSampleInThisSequence && !await WaitSequenceDelayAsync(item))
+                    {
+                        break;
+                    }
+                    hasRunSampleInThisSequence = true;
+
                     item.Status = "Acquiring";
                     _currentSequenceItem = item;
                     try

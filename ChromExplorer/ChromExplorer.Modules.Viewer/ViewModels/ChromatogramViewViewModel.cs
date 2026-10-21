@@ -909,6 +909,12 @@ AND m.is_active = 1";
                     data.SpectrumPostProcessing.Add(new PdfKeyValueRow("Gaussian Width (sigma)", getConfigValue(gaussianFilter, "Sigma")));
                 }
 
+                if (!string.IsNullOrEmpty(Chromatogram?.SelectedMassText))
+                {
+                    data.EicPostProcessing.Add(new PdfKeyValueRow("Selected Mass (m/z)",
+                        Chromatogram.SelectedMassText.Replace("EIC m/z ", "")));
+                }
+
                 var eicSG = ops.FirstOrDefault(o => o.ObjectKey == "EicSavitzkyGolaySmoother");
                 if (eicSG != null)
                 {
