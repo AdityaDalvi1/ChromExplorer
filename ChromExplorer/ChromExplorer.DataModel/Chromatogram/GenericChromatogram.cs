@@ -694,13 +694,59 @@ namespace ChromExplorer.DataModel.Chromatogram
             {
                 Points = rebuiltPoints;
                 UpdateSIC();
+
+                // Set only here, after the rebuild AND post-processing have both finished, so the
+                // label always matches the trace that is actually on screen.
+                SelectedMassText = BuildSelectedMassText(_selectedSpectrumIndexes);
             }
 
             SetReadyStatus();
         }
 
+        private string _selectedMassText = string.Empty;
+
+        // m/z (or m/z range) the displayed EIC was extracted from; empty when no mass is selected
+        // (i.e. the trace is the plain TIC). Shown on the chromatogram header and in the report.
+        public string SelectedMassText
+        {
+            get { return _selectedMassText; }
+            private set
+            {
+                if (value == _selectedMassText) return;
+                _selectedMassText = value;
+                OnPropertyChanged("SelectedMassText");
+            }
+        }
+
+        private string BuildSelectedMassText(IList<int> indexes)
+        {
+            try
+            {
+                var spectrumPoints = _currentSpectrum?.Points?.Points;
+                if (indexes == null || indexes.Count == 0 || spectrumPoints == null)
+                    return string.Empty;
+
+                int first = indexes.Min();
+                int last = indexes.Max();
+                if (first < 0 || last >= spectrumPoints.Count)
+                    return string.Empty;
+
+                double from = spectrumPoints[first].X;
+                double to = spectrumPoints[last].X;
+
+                return Math.Abs(to - from) < 0.005
+                    ? string.Format("EIC m/z {0:0.00}", from)
+                    : string.Format("EIC m/z {0:0.00} - {1:0.00}", from, to);
+            }
+            catch
+            {
+                return string.Empty;
+            }
+        }
+
         private void AggregateSpectrumWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            IsRebuildingSpectrumInPlace = false;
             SetReadyStatus();
         }
 
@@ -739,6 +785,12 @@ namespace ChromExplorer.DataModel.Chromatogram
             }
         }
 
+        // True while the CURRENT spectrum is being re-derived from the same data (post-processing
+        // applied / saved method applied) rather than replaced by a different file or Data Channel.
+        // The spectrum plot reads this to keep the user's zoom and mass selection instead of
+        // resetting the view to the full m/z range.
+        public volatile bool IsRebuildingSpectrumInPlace;
+
         public void RebuilCurrentSpectrum()
         {
             // A multi-scan selection (e.g. the whole-TIC aggregate shown right after a file loads)
@@ -748,12 +800,21 @@ namespace ChromExplorer.DataModel.Chromatogram
 
             if (_selectedIndex >= 0 && !multiSelected)
             {
-                UpdateCurrentSpectrum(_selectedIndex);
+                IsRebuildingSpectrumInPlace = true;
+                try
+                {
+                    UpdateCurrentSpectrum(_selectedIndex);
+                }
+                finally
+                {
+                    IsRebuildingSpectrumInPlace = false;
+                }
             }
             else if (_selectedIndexes != null)
             {
                 if (!_aggregateSpectrumWorker.IsBusy)
                 {
+                    IsRebuildingSpectrumInPlace = true;
                     SetWaitStatus();
                     _aggregateSpectrumWorker.RunWorkerAsync(_selectedIndexes);
                 }

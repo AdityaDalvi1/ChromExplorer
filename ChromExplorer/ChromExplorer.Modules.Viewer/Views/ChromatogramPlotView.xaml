@@ -79,6 +79,8 @@
                         Text="{Binding Chromatogram.Title}"
                         ToolTip="{Binding Chromatogram.Description}"
                         Background="LightBlue" />
+                    <TextBlock Grid.Column="1" Margin="10,0,0,0" FontWeight="Bold" VerticalAlignment="Center"
+                               Text="{Binding Chromatogram.SelectedMassText}" />
                     <StackPanel Orientation="Horizontal" Margin="5,0,0,0" Grid.Column="2">
                         <TextBlock Margin="10, 3, 3, 3">Index</TextBlock>
                         <TextBlock Width="60" Margin="3"
