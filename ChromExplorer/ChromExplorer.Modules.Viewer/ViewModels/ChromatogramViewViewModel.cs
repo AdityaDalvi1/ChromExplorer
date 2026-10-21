@@ -575,8 +575,11 @@ AND m.is_active = 1";
 
             // General
             var general = new MethodReportSection("General");
-            if (!string.IsNullOrWhiteSpace(mtd.MethodName))
-                general.Add("Instrument Method", string.IsNullOrWhiteSpace(mtd.MethodFile) ? mtd.MethodName : mtd.MethodName + " (" + mtd.MethodFile + ")");
+            // The XML <Name> is a generic template ("Default MS"); the saved method file name is the real method used.
+            string methodFileName = string.IsNullOrWhiteSpace(mtd.MethodFile) ? null : Path.GetFileNameWithoutExtension(mtd.MethodFile);
+            string instrumentMethod = !string.IsNullOrWhiteSpace(methodFileName) ? methodFileName : mtd.MethodName;
+            if (!string.IsNullOrWhiteSpace(instrumentMethod))
+                general.Add("Instrument Method", instrumentMethod);
             if (!string.IsNullOrWhiteSpace(mtd.SerialNumber)) general.Add("Instrument Serial Number", mtd.SerialNumber);
             if (mtd.AcquiredAt.HasValue) general.Add("Acquired", mtd.AcquiredAt.Value.ToString("g"));
             if (mtd.DurationSeconds.HasValue) general.Add("Acquisition Length", mtd.DurationSeconds.Value.ToString("0.#", culture) + " seconds");
@@ -586,8 +589,9 @@ AND m.is_active = 1";
 
             // Ion Source - only when the file holds a reading
             var ionSource = new MethodReportSection("Ion Source");
-            if (mtd.SprayVoltage.HasValue) ionSource.Add("Spray Voltage", num(mtd.SprayVoltage.Value));
-            if (mtd.HeaterValue.HasValue) ionSource.Add("Heater", num(mtd.HeaterValue.Value));
+            if (mtd.SprayVoltage.HasValue) ionSource.Add("Spray Voltage", num(mtd.SprayVoltage.Value) + " kV");
+            if (mtd.CapillaryTemperature.HasValue) ionSource.Add("Capillary Temperature", num(mtd.CapillaryTemperature.Value) + " °C");
+            if (mtd.HeaterValue.HasValue) ionSource.Add("Heater Power", num(mtd.HeaterValue.Value) + " %");
             data.Sections.Add(ionSource);
 
             // Acquisition parameters

@@ -25,6 +25,7 @@ namespace ChromExplorer.ModasReader
         // Ion source (only when the file records it)
         public double? SprayVoltage { get; set; }
         public double? HeaterValue { get; set; }
+        public double? CapillaryTemperature { get; set; }
 
         // Acquisition parameters
         public string Polarity { get; set; }
