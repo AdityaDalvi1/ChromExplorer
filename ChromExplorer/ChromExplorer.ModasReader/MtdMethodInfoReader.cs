@@ -120,6 +120,23 @@ namespace ChromExplorer.ModasReader
         // sample files checked so far carry neither, so this is deliberately tolerant.
         private static void ReadIonSource(XmlElement root, MtdMethodInfo info)
         {
+            // Method XML stores the configured values as Channels/IonSourceChannel (Name + OperationalValue[Neg]).
+            bool negative = string.Equals(info.Polarity, "Negative", StringComparison.OrdinalIgnoreCase);
+            foreach (XmlNode channel in root.SelectNodes("//IonSourceChannel"))
+            {
+                string name = Text(channel, "Name") ?? "";
+                double? value = Number(channel, negative ? "OperationalValueNeg" : "OperationalValue");
+                if (!value.HasValue)
+                    continue;
+
+                if (name.IndexOf("spray", StringComparison.OrdinalIgnoreCase) >= 0)
+                    info.SprayVoltage = value;
+                else if (name.IndexOf("capillary", StringComparison.OrdinalIgnoreCase) >= 0 && name.IndexOf("temp", StringComparison.OrdinalIgnoreCase) >= 0)
+                    info.CapillaryTemperature = value;
+                else if (name.IndexOf("heater", StringComparison.OrdinalIgnoreCase) >= 0)
+                    info.HeaterValue = value;
+            }
+
             foreach (XmlNode channel in root.SelectNodes("VoltageChannels/VoltageChannel"))
             {
                 string name = Text(channel, "ChannelName") ?? "";

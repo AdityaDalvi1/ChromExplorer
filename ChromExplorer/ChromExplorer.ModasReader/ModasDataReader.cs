@@ -236,13 +236,19 @@ namespace ChromExplorer.ModasReader
                 x[i] = point.Time;
                 y[i] = 0.0;
 
-                double divider = point.SpectrumMeta.InjectionTime > 0 ? point.SpectrumMeta.InjectionTime : 1.0;
+                // Keep the EIC on the same intensity scale as the TIC and the mass spectrum. With baseline
+                // removal the stored data already carries the injection-time normalization (LoadData applies it
+                // in GetTicAndRefine), so it must not be applied again; without it the stored data is raw, and
+                // the TIC/spectrum scale is raw too unless normalize-by-IT is on.
+                double scale = 1.0;
+                if (_normalizeByIT && !BaselineRemoved && point.SpectrumMeta.InjectionTime > 0)
+                    scale = _referenceITSec / point.SpectrumMeta.InjectionTime;
 
                 if (indexes != null)
                 {
                     foreach (var index in indexes)
                     {
-                        y[i] += _store.Spectrums[point.Index].Data[index] / divider;
+                        y[i] += _store.Spectrums[point.Index].Data[index] * scale;
                     }
                 }
                 else

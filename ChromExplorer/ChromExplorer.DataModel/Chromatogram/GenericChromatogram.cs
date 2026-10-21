@@ -596,6 +596,11 @@ namespace ChromExplorer.DataModel.Chromatogram
                 OnPropertyChanged("SelectedIndexes");
                 OnPropertyChanged("SelectedIndexesCount");
             }
+
+            // BuildPlotPoints above reset the plot to the TIC; if a mass selection (EIC) is still active,
+            // re-extract it for the newly selected channel so the y-axis matches the selection.
+            if (_selectedSpectrumIndexes != null && _selectedSpectrumIndexes.Count > 0)
+                RebuildChromatogram();
         }
 
         private int MapToSpectrumIndex(int filteredIndex)
