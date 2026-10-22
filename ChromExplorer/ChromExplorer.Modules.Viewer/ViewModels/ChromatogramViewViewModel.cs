@@ -545,6 +545,61 @@ AND m.is_active = 1";
             }
         }
 
+        // The instrument method actually used for a run is only known to ChromExplorer when it starts the acquisition:
+        // the dashboard audit-logs 'Instrument Method Loaded' (the .mtm2 sent to the instrument) immediately before
+        // 'Start Analysis' for the data file. Look that pair up for the loaded file, so the name is always the real
+        // one and nothing is hard-coded.
+        private string LookupInstrumentMethodFromAuditLog(string mtdPath)
+        {
+            if (string.IsNullOrEmpty(mtdPath))
+                return null;
+
+            try
+            {
+                using (var con = new SQLiteConnection(_connectionString))
+                {
+                    con.Open();
+
+                    long startId;
+                    using (var cmd = new SQLiteCommand(
+                        "SELECT audit_log_id FROM AuditLogM WHERE action = 'Start Analysis' AND is_active = 1 AND file_name = @f ORDER BY audit_log_id DESC LIMIT 1", con))
+                    {
+                        cmd.Parameters.AddWithValue("@f", Path.GetFileName(mtdPath));
+                        object r = cmd.ExecuteScalar();
+                        if (r == null || r == DBNull.Value)
+                            return null;
+                        startId = Convert.ToInt64(r);
+                    }
+
+                    using (var cmd = new SQLiteCommand(
+                        "SELECT file_name FROM AuditLogM WHERE action = 'Instrument Method Loaded' AND is_active = 1 AND audit_log_id < @id AND TRIM(IFNULL(file_name, '')) <> '' ORDER BY audit_log_id DESC LIMIT 1", con))
+                    {
+                        cmd.Parameters.AddWithValue("@id", startId);
+                        object r = cmd.ExecuteScalar();
+                        return r == null || r == DBNull.Value ? null : r.ToString().Trim();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Best effort: the report must still open when the audit database is unavailable.
+                System.Diagnostics.Debug.WriteLine("Instrument method audit lookup failed: " + ex.Message);
+                return null;
+            }
+        }
+
+        private string ResolveInstrumentMethod(MtdMethodInfo mtd)
+        {
+            string logged = LookupInstrumentMethodFromAuditLog(mtd.FilePath);
+            if (!string.IsNullOrWhiteSpace(logged))
+                return logged;
+
+            // No acquisition record on this PC (e.g. file acquired elsewhere): the method path embedded in the .mtd
+            // is the template the method was cloned from, so label it as such rather than present it as the run's method.
+            string embedded = !string.IsNullOrWhiteSpace(mtd.MethodFile) ? Path.GetFileNameWithoutExtension(mtd.MethodFile) : mtd.MethodName;
+            return string.IsNullOrWhiteSpace(embedded) ? null : embedded + " (embedded in file)";
+        }
+
         /// <summary>
         /// Builds the Method Report from the acquisition settings stored in the loaded .mtd file.
         /// A row (or a whole section) only appears when the file actually records that value:
@@ -575,9 +630,9 @@ AND m.is_active = 1";
 
             // General
             var general = new MethodReportSection("General");
-            // The XML <Name> is a generic template ("Default MS"); the saved method file name is the real method used.
-            string methodFileName = string.IsNullOrWhiteSpace(mtd.MethodFile) ? null : Path.GetFileNameWithoutExtension(mtd.MethodFile);
-            string instrumentMethod = !string.IsNullOrWhiteSpace(methodFileName) ? methodFileName : mtd.MethodName;
+            // The method XML embedded in the .mtd keeps the path of the template it was cloned from, not the method
+            // that was actually run, so the real instrument method is resolved from the acquisition audit record.
+            string instrumentMethod = ResolveInstrumentMethod(mtd);
             if (!string.IsNullOrWhiteSpace(instrumentMethod))
                 general.Add("Instrument Method", instrumentMethod);
             if (!string.IsNullOrWhiteSpace(mtd.SerialNumber)) general.Add("Instrument Serial Number", mtd.SerialNumber);
