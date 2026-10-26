@@ -383,12 +383,11 @@
                                 <ComboBox Width="80" Height="26" VerticalContentAlignment="Center" Margin="3,0"
                                           ItemsSource="{Binding SequenceDelayUnits}" SelectedItem="{Binding SequenceDelayUnit}" />
                             </StackPanel>
-                            <TextBlock Text="{Binding SequenceDelayStatusText}" Foreground="DarkOrange" FontWeight="SemiBold"
-                                       VerticalAlignment="Center" Margin="10,0,0,0" />
                         </StackPanel>
                     </Border>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,5,0">
+                    <Grid Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" Margin="10,0,5,0">
                         <TextBlock Text="Sequence File:" FontWeight="SemiBold" VerticalAlignment="Center" />
                         <TextBlock Text="{Binding SequenceFileDisplayName}" FontWeight="Bold" Margin="6,0,0,0" VerticalAlignment="Center" />
                         <TextBlock Text="{Binding SequenceFileStatusText, StringFormat='  ({0})'}" Foreground="{Binding SequenceFileStatusBrush}" FontWeight="SemiBold" Margin="4,0,0,0" VerticalAlignment="Center">
@@ -414,6 +413,43 @@
                             </TextBlock.Style>
                         </TextBlock>
                     </StackPanel>
+
+                    <!-- Countdown to the next sample (sequence delay). Lives here, not in the toolbar, so it is never clipped off-screen. -->
+                    <Border HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Padding="6,0" MaxWidth="220" CornerRadius="3" Background="#FFF3E0" BorderBrush="DarkOrange" BorderThickness="1">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SequenceDelayStatusText}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding SequenceDelayStatusText}" FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="DarkOrange" />
+                                    <Style.Triggers>
+                                        <!-- Last 30 seconds before the next sample starts: red and blinking. -->
+                                        <DataTrigger Binding="{Binding SequenceDelayIsFinalWarning}" Value="True">
+                                            <Setter Property="Foreground" Value="Red" />
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard x:Name="SequenceDelayBlink">
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0.15" Duration="0:0:0.5" AutoReverse="True" RepeatBehavior="Forever" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                            <DataTrigger.ExitActions>
+                                                <StopStoryboard BeginStoryboardName="SequenceDelayBlink" />
+                                            </DataTrigger.ExitActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                    </Grid>
 
                     <Border Grid.Row="2" Margin="5" Padding="5" Background="White" CornerRadius="5" BorderBrush="#CCCCCC" BorderThickness="1">
                         <DataGrid x:Name="SequenceGrid"

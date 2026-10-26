@@ -558,6 +558,16 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
             set { SetField(ref _sequenceDelayUnit, value, "SequenceDelayUnit"); }
         }
 
+        // True during the last 30 seconds of the wait, so the countdown can blink as an alert.
+        private const int SequenceDelayWarningSeconds = 30;
+        private bool _sequenceDelayIsFinalWarning;
+
+        public bool SequenceDelayIsFinalWarning
+        {
+            get { return _sequenceDelayIsFinalWarning; }
+            private set { SetField(ref _sequenceDelayIsFinalWarning, value, "SequenceDelayIsFinalWarning"); }
+        }
+
         // Shown next to the delay field while the sequence is waiting between two samples.
         public string SequenceDelayStatusText
         {
@@ -600,13 +610,16 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
                     if (remaining <= TimeSpan.Zero)
                         break;
 
-                    SequenceDelayStatusText = $"Next sample '{nextItem.SampleName}' starts in {Math.Ceiling(remaining.TotalSeconds):0} s";
+                    int secondsLeft = (int)Math.Ceiling(remaining.TotalSeconds);
+                    SequenceDelayStatusText = $"Next '{nextItem.SampleName}' in {secondsLeft / 60:00}:{secondsLeft % 60:00}";
+                    SequenceDelayIsFinalWarning = secondsLeft <= SequenceDelayWarningSeconds;
                     await Task.Delay(remaining < TimeSpan.FromSeconds(1) ? remaining : TimeSpan.FromSeconds(1));
                 }
             }
             finally
             {
                 SequenceDelayStatusText = "";
+                SequenceDelayIsFinalWarning = false;
             }
 
             return !_stopSequenceRequested;

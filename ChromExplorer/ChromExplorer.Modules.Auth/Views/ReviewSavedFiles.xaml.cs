@@ -741,8 +741,7 @@ namespace ChromExplorer.Modules.Auth.Views
         // at the file — the same "view it inside the application" treatment as CSV/XML, so the
         // Reviewer sees the actual signed-off content (chromatogram, peaks, everything printed
         // in the PDF) right next to the remark/Approve/Reject panel instead of having to alt-tab
-        // to a separate PDF reader window. A toolbar "Open in External Viewer" fallback is kept
-        // in case the local WebBrowser control's PDF plugin isn't available on this machine.
+        // to a separate PDF reader window. The report opens only here — there is no external-viewer option.
         private void ShowPdfViewer(string path, string title, SavedFileRecord record, bool allowReview)
         {
             var dialog = new Window
@@ -783,33 +782,8 @@ namespace ChromExplorer.Modules.Auth.Views
             };
             btnBack.Click += (s, e) => dialog.Close();
 
-            var btnOpenExternal = new Button
-            {
-                Content = "Open in External Viewer",
-                Padding = new Thickness(10, 4, 10, 4),
-                HorizontalAlignment = HorizontalAlignment.Right
-            };
-            btnOpenExternal.Click += (s, e) =>
-            {
-                try
-                {
-                    Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
-                    new AuthService().Log("Saved File - Opened in External Viewer",
-                        $"'{record.FileName}{record.FileExt}' ({record.RecordType}) opened in the external/system PDF viewer from the in-app review window");
-                }
-                catch (Exception ex)
-                {
-                    new AuthService().Log("Saved File - Open in External Viewer Failed",
-                        $"Could not open '{record.FileName}{record.FileExt}' ({record.RecordType}) in an external viewer | Error: {ex.Message}");
-
-                    MessageBox.Show("Could not open this file:\n" + ex.Message, "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            };
             DockPanel.SetDock(btnBack, Dock.Right);
-            DockPanel.SetDock(btnOpenExternal, Dock.Right);
             toolbarPanel.Children.Add(btnBack);
-            toolbarPanel.Children.Add(btnOpenExternal);
             toolbarPanel.Children.Add(titleText);
             toolbar.Child = toolbarPanel;
 
@@ -841,9 +815,8 @@ namespace ChromExplorer.Modules.Auth.Views
                 }
                 catch (Exception ex)
                 {
-                    // Typically the WebView2 Runtime is missing on this machine. The "Open in
-                    // External Viewer" button above still works, but log it and say so, since a
-                    // reviewer silently seeing a blank PDF pane needs a trace.
+                    // Typically the WebView2 Runtime is missing on this machine. Log it and say so,
+                    // since a reviewer silently seeing a blank PDF pane needs a trace.
                     new AuthService().Log("Saved File - In-App PDF Render Failed",
                         $"Embedded PDF viewer could not render '{record.FileName}{record.FileExt}' ({record.RecordType}) | Error: {ex.Message}");
 
@@ -851,7 +824,7 @@ namespace ChromExplorer.Modules.Auth.Views
                     host.Children.Add(new TextBlock
                     {
                         Text = "This report could not be displayed inside the application.\n" +
-                               "Use \"Open in External Viewer\" above to view it.\n\n" + ex.Message,
+                               "\n" + ex.Message,
                         TextWrapping = TextWrapping.Wrap,
                         Margin = new Thickness(20),
                         Foreground = System.Windows.Media.Brushes.DimGray
