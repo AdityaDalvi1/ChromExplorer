@@ -105,11 +105,11 @@ namespace ChromExplorer.Modules.ModasChromProvider.Services
             data.UpdateStatistic();
 
             bool recalcTic = true;
-            bool removeBaseline = true;
+            bool removeBaseline = false;
             double nfl = ModasDataReader.DefaultNoiseFilterLevel;
             double ppd = data.PPD;
             TimeUnits units = TimeUnits.Min;
-            bool normIT = true;
+            bool normIT = false;
             double refIT = 100.0;
 
             if (_settingsProvider != null)

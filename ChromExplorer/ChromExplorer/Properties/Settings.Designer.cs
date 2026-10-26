@@ -61,7 +61,7 @@ namespace ChromExplorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool RemoveBaseline {
             get {
                 return ((bool)(this["RemoveBaseline"]));
@@ -85,7 +85,7 @@ namespace ChromExplorer.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool NormalizeByIT {
             get {
                 return ((bool)(this["NormalizeByIT"]));

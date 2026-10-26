@@ -12,13 +12,13 @@
       <Value Profile="(Default)">25</Value>
     </Setting>
     <Setting Name="RemoveBaseline" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="NoiseFilterLevel" Type="System.Double" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="NormalizeByIT" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ReferenceIT" Type="System.Double" Scope="User">
       <Value Profile="(Default)">100</Value>
