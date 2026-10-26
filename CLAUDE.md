@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-ChromExplorer is a Windows WPF desktop application (.NET Framework 4.8) for viewing and processing chromatography / mass-spec data (MODAS chromatograms, NIST and Wiley library search, Mascot and mzML export). The solution is `ChromExplorer/ChromExplorer.sln` (~50 projects). The repo is not under git in this checkout; `bin/`, `obj/`, and `packages/` are checked in alongside source, so exclude them when searching.
+ChromExplorer is a Windows WPF desktop application (.NET Framework 4.8) for viewing and processing chromatography / mass-spec data (MODAS chromatograms, NIST and Wiley library search, Mascot and mzML export). The solution is `ChromExplorer/ChromExplorer.sln` (~50 projects). The repo is under git (main branch `main`); `bin/`, `obj/`, and `packages/` are gitignored build output, but may exist on disk, so exclude them when searching.
 
 ## Build & test
 
@@ -26,7 +26,7 @@ vstest.console.exe path\to\ChromExplorer.DataModel.Tests.dll /Tests:TestMethodNa
 
 Installer: NSIS scripts in `Installer/` (`installer_x64.nsi`), driven by `Tools/makensisbuildrunner.exe` and `Tools/nsis_patcher.ps1`. The app is licensed via QLM (`qlm/`); the Licensing module is currently commented out in the bootstrapper.
 
-Contributing: master is protected; work on a branch and open a merge request.
+Contributing: `main` is the default branch (PRs merge into it); work on a feature branch and open a pull request.
 
 ## Architecture
 
