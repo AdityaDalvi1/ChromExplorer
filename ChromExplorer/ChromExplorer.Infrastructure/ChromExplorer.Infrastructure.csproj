@@ -108,6 +108,7 @@
     <Compile Include="ChromExplorerSettingsBase.cs" />
     <Compile Include="Converters\MassRangeDisplayConverter.cs" />
     <Compile Include="Dynamic.cs" />
+    <Compile Include="BackupService.cs" />
     <Compile Include="FileSaveGuard.cs" />
     <Compile Include="FileStorage.cs" />
     <Compile Include="ReportStorage.cs" />
