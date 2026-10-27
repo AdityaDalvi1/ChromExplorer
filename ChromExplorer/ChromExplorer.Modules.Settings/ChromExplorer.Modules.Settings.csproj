@@ -117,6 +117,9 @@
     <Compile Include="Views\PeakIntegrationView.xaml.cs">
       <DependentUpon>PeakIntegrationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BackupToolButton.xaml.cs">
+      <DependentUpon>BackupToolButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsNavigationItemView.xaml.cs">
       <DependentUpon>SettingsNavigationItemView.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PeakIntegrationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BackupToolButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

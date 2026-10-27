@@ -1,0 +1,12 @@
+<UserControl x:Class="ChromExplorer.Modules.Settings.Views.BackupToolButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:assets="clr-namespace:ChromExplorer.Assets;assembly=ChromExplorer.Assets"
+             mc:Ignorable="d"
+             d:DesignHeight="48" d:DesignWidth="48">
+    <Button Margin="2" x:Name="BackupButton" ToolTip="Backup - copy all saved reports, methods, sequences, RSD and other files from the D: drive, plus the database, into a new dated backup folder" Click="BtnClick">
+        <Image Width="32" Height="32" Source="{assets:Asset MetroIcons/Save-02-WF.png}"/>
+    </Button>
+</UserControl>
