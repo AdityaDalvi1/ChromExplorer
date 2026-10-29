@@ -201,8 +201,10 @@ namespace ChromExplorer.Modules.Viewer.ViewModels
         }
 
         // Zooms the MASS SPECTRUM plot itself (this view's own Visible window) in on the chosen
-        // mass, then extracts that mass as an EIC on the top plot (see ExtractEicForMass), which
-        // auto-integrates the mass's chromatographic peak.
+        // mass. Deliberately does NOT touch Chromatogram.SelectedSpectrumIndexes — that property
+        // also rebuilds an extracted-ion chromatogram on the TOP plot as a side effect (see
+        // GenericChromatogram.SelectedSpectrumIndexes), which changed the wrong graph; selecting
+        // a mass here should only affect the spectrum view below it.
         private void ApplyMassSelection(double? mass)
         {
             if (!mass.HasValue || Plotter == null)
@@ -214,30 +216,6 @@ namespace ChromExplorer.Modules.Viewer.ViewModels
             // (same one the "Rescale" menu item and Data Channel switching already use).
             const double halfWindow = 10.0;
             Plotter.SetRange(mass.Value - halfWindow, mass.Value + halfWindow);
-
-            ExtractEicForMass(mass.Value);
-        }
-
-        // Rebuilds the top plot as the EIC of the chosen mass, the same thing a drag-select of that
-        // mass on the spectrum does. The resulting "Points" change makes ChromatogramPlotViewModel
-        // re-run its automatic peak integration, so the peak(s) of this mass get RT/Area labels.
-        private void ExtractEicForMass(double mass)
-        {
-            const double eicHalfWidth = 0.4;
-
-            var xvals = Chromatogram?.CurrentSpectrum?.Points?.Xvals;
-            if (xvals == null)
-                return;
-
-            var indexes = new List<int>();
-            for (int i = 0; i < xvals.Length; i++)
-            {
-                if (xvals[i] >= mass - eicHalfWidth && xvals[i] <= mass + eicHalfWidth)
-                    indexes.Add(i);
-            }
-
-            if (indexes.Count > 0)
-                Chromatogram.SelectedSpectrumIndexes = indexes;
         }
 
         public DataRect Visible
