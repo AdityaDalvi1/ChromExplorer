@@ -238,7 +238,15 @@ namespace ChromExplorer.Plotter
 
 
             xTickProvider.Update(visibleDataRect.XMin, visibleDataRect.XMax, ticks);
-            yTickProvider.Update(visibleDataRect.YMin, visibleDataRect.YMax, yticks);
+
+            // Zoomed: the Y range is not snapped to the tick range (see below), so choose the step
+            // from the real visible span to keep intensity labels on screen. Unzoomed keeps the
+            // original generation, whose Min/Max are what snap the range.
+            if (zoommed)
+                yTickProvider.UpdateWithinRange(visibleDataRect.YMin, visibleDataRect.YMax, yticks,
+                    this.ActualHeight, verticalTickSpacing, 32.0);
+            else
+                yTickProvider.Update(visibleDataRect.YMin, visibleDataRect.YMax, yticks);
 
             if (!zoommed)
             {
