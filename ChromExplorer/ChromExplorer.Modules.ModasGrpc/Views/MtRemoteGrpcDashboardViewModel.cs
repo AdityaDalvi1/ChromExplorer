@@ -1230,9 +1230,9 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
 
             var item = CapillaryItem();
             if (InWindow(item))
-                return true; // no reading yet, or already within ±3% of the method's set value.
+                return true; // no reading yet, or already within ±3 °C of the method's set value.
 
-            string waitReason = "Capillary Temperature is " + item.Value + ", needs to be within ±" + StatusViewViewModel.CapillaryTolerancePercent + "% of the method's set value " + setpoint.Value;
+            string waitReason = "Capillary Temperature is " + item.Value + ", needs to be within ±" + StatusViewViewModel.CapillaryToleranceDegrees + " °C of the method's set value " + setpoint.Value;
             // Short grace period only (a reading right at the edge usually settles in seconds);
             // a long silent wait looked like "Start Analysis does nothing", so after that the
             // user gets an immediate, explicit message instead.
@@ -1248,8 +1248,8 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
             }
 
             item = CapillaryItem();
-            waitReason = "Capillary Temperature is " + item?.Value + ", needs to be within ±" + StatusViewViewModel.CapillaryTolerancePercent + "% of the method's set value " + setpoint.Value
-                + " (" + Math.Round(setpoint.Value * (1 - StatusViewViewModel.CapillaryTolerancePercent / 100.0), 1) + " to " + Math.Round(setpoint.Value * (1 + StatusViewViewModel.CapillaryTolerancePercent / 100.0), 1) + ")";
+            waitReason = "Capillary Temperature is " + item?.Value + ", needs to be within ±" + StatusViewViewModel.CapillaryToleranceDegrees + " °C of the method's set value " + setpoint.Value
+                + " (" + Math.Round(setpoint.Value - StatusViewViewModel.CapillaryToleranceDegrees, 1) + " to " + Math.Round(setpoint.Value + StatusViewViewModel.CapillaryToleranceDegrees, 1) + ")";
 
             try
             {
@@ -2687,7 +2687,7 @@ namespace ChromExplorer.Modules.ModasGrpc.Views
             string reason = isBufferGas
                 ? $"Buffer Gas went Low during acquisition | {e.Reason}"
                 : isCapillary
-                    ? $"Capillary Temperature moved outside the method's set value ±{StatusViewViewModel.CapillaryTolerancePercent}% during acquisition | {e.Reason}"
+                    ? $"Capillary Temperature moved outside the method's set value ±{StatusViewViewModel.CapillaryToleranceDegrees} °C during acquisition | {e.Reason}"
                     : $"{e.Name} crossed its safety threshold during acquisition | {e.Reason}";
 
             _autoAbortReason = reason;
