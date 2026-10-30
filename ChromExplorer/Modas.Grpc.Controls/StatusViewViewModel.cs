@@ -103,7 +103,7 @@ namespace Modas.Grpc.Controls
         }
 
         // Capillary Temperature is checked against the SET value of the selected Instrument
-        // Method (not a fixed number): the reading must stay within ±CapillaryTolerancePercent of
+        // Method (not a fixed number): the reading must stay within ±CapillaryToleranceDegrees °C of
         // it. Null setpoint (no analysis running / method value unknown) means no check.
         // ONE SWITCH for the instrument checks that can't be satisfied on the simulator:
         // "instrument connected" (pre-start), Buffer Gas / Vacuum / Capillary Temperature (status
@@ -112,12 +112,12 @@ namespace Modas.Grpc.Controls
         // checks on).
         public static bool SafetyChecksEnabled = true;
 
-        public const double CapillaryTolerancePercent = 3.0;
+        public const double CapillaryToleranceDegrees = 3.0;
         public double? CapillarySetpoint { get; set; }
 
         public static bool IsWithinCapillaryWindow(double setpoint, double actual)
         {
-            return Math.Abs(actual - setpoint) <= Math.Abs(setpoint) * CapillaryTolerancePercent / 100.0;
+            return Math.Abs(actual - setpoint) <= CapillaryToleranceDegrees;
         }
 
         private void ApplyCapillarySetpointCheck(StatusItem item)
@@ -135,7 +135,7 @@ namespace Modas.Grpc.Controls
             bool isOutOfRange = !IsWithinCapillaryWindow(setpoint.Value, currentValue);
             SetOutOfRange(item, isOutOfRange,
                 isOutOfRange
-                    ? $"Capillary temperature is {item.Value}, needs to be within ±{CapillaryTolerancePercent.ToString(CultureInfo.InvariantCulture)}% of the method's set value {setpoint.Value.ToString(CultureInfo.InvariantCulture)}"
+                    ? $"Capillary temperature is {item.Value}, needs to be within ±{CapillaryToleranceDegrees.ToString(CultureInfo.InvariantCulture)} °C of the method's set value {setpoint.Value.ToString(CultureInfo.InvariantCulture)}"
                     : null);
         }
 
